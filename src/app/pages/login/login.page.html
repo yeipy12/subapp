@@ -1,0 +1,26 @@
+
+<ion-content [fullscreen]="true" color="medium">
+  
+  <div id="container">
+    <ion-card color="">
+      <br />
+      <ion-title>Inicia Sesion</ion-title>
+      <br />
+      <ion-input  type="user" label="Usuario" label-placement="floating" fill="outline" placeholder="Tu usuario" [(ngModel)]="usuario"></ion-input>
+      <br />
+      <ion-input  type="password" label="Contraseña" label-placement="floating" fill="outline" placeholder="Ingresa tu contraseña"[(ngModel)]="contrasena"[counter]="true" maxlength="8"></ion-input>
+      <br />
+      <div class="mat-raised-button" color="dark">
+        <button mat-raised-button  (click)="valiusuario()">Iniciar Sesión</button>
+      </div>
+      <br />
+      <ion-label>
+        <p>¿No tienes cuenta? <a [routerLink]="['/registrar']">Registrate</a></p>
+      </ion-label> 
+      <br />
+    </ion-card>
+    </div>
+</ion-content>
+
+
+

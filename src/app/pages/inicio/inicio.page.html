@@ -1,0 +1,69 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark" >
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">inicio</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <ion-card color="dark">
+    <br />
+    <br />
+    <img alt="" src="assets/imgcard/sucurs.jpg" />
+    <br />
+    <br />
+    <br />
+
+  </ion-card>
+  
+</ion-content>
+
+
+<ion-content>
+<ion-content color="light">
+  <ion-title>Subasta dia Martes(601)</ion-title>
+  <ion-list  color="dark"[inset]="true">
+    <ion-item>
+      <ion-label>INSPECCIONADOS(59)</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>CAMIONES Y AUTOBUSES(110)</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>NO DAÑADOS(188)</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>DAÑADOS(143)</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>NO CONDUCIBLE(101)</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>SUBASTA DE AUTOS DE RENTA(0)</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+</ion-content>
+
+
+<ion-footer [translucent]="true">
+  <ion-tab-bar color="dark" slot="bottom">
+    <ion-tab-button tab="home" [routerLink]="['/subasta']">
+      <ion-icon name="car-sport-outline"></ion-icon>
+      subasta
+    </ion-tab-button>
+    <ion-tab-button tab="library" [routerLink]="['/inicio']">
+      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+      Inicio
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+
+    <ion-buttons slot="start">
+      <ion-back-button  default-href="/login"></ion-back-button>
+    </ion-buttons>
+    
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+<ion-content [fullscreen]="true" color="medium">
+
+  <div id="container">
+    <ion-card>
+    <br />
+    <ion-title>Bienvenido a BidDrive</ion-title>
+    <br />
+    <ion-input label="Nombre de usuario" label-placement="floating" fill="outline" placeholder="usuario" [(ngModel)]="usuario"></ion-input>
+    <br />
+    <ion-input label="Correo electrónico" type="email" label-placement="floating" fill="outline" placeholder="Email@tipodedominio" [(ngModel)]="email"></ion-input>
+    <br />
+    <ion-input label="Contraseña" type="password" label-placement="floating" fill="outline" placeholder="Contraseña" [(ngModel)]="contrasena" [counter]="true" maxlength="8">
+      <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
+    </ion-input>
+    <br />
+    <ion-input label="Contraseña" type="password" label-placement="floating" fill="outline" placeholder=" Confirmar Contraseña" [(ngModel)]="contrasena1"
+    [counter]="true" maxlength="8">
+    <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
+  </ion-input>
+
+    <div class="container-check">
+    <ion-checkbox>Acepto los<a href="#" (click)="$event.stopPropagation()"> términos y condiciones</a></ion-checkbox>
+    </div>
+    <br />
+    <div class="container-boton">
+      <ion-button class="boton"  (click)="valiusuarios()">REGISTRAR</ion-button>
+      </div>
+
+    </ion-card>
+  </div>
+  
+
+</ion-content>
+
+

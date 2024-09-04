@@ -1,0 +1,108 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="end">
+      <ion-menu-button default-href="/subasta"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/Inicio"></ion-back-button>
+    </ion-buttons>
+    <ion-title>subasta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-card>
+    <img alt="" src="assets/imgcard/370zz.jpg" />
+    <ion-card-header>
+      <ion-card-title>Nissan 370z Nismo (2012)</ion-card-title>
+      <br />
+      <ion-card-subtitle>15,000 km</ion-card-subtitle>
+      <ion-card-subtitle>Bencina</ion-card-subtitle>
+      <ion-card-subtitle>Manual</ion-card-subtitle>
+      <br />
+      <ion-card-subtitle>$25,400,000 CLP</ion-card-subtitle>
+      <br />
+      <ion-button (click)="alertabasica()">Comprar</ion-button>
+
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <img alt="" src="assets/imgcard/impresas.jpg" />
+    <ion-card-header>
+      <ion-card-title>Subaru Impresa WRX (2016)</ion-card-title>
+      <br />
+      <ion-card-subtitle>70,000 km</ion-card-subtitle>
+      <ion-card-subtitle>Bencina</ion-card-subtitle>
+      <ion-card-subtitle>Automatica</ion-card-subtitle>
+      <br />
+      <ion-card-subtitle>$18,390,000 CLP</ion-card-subtitle>
+      <br />
+      <ion-button (click)="alertabasica()">Comprar</ion-button>
+    
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <img alt="" src="assets/imgcard/rapt.jpg" />
+    <ion-card-header>
+      <ion-card-title>Ford Raptor (2015)</ion-card-title>
+      <br />
+      <ion-card-subtitle>90,000 km</ion-card-subtitle>
+      <ion-card-subtitle>Bencina</ion-card-subtitle>
+      <ion-card-subtitle>Automatica</ion-card-subtitle>
+      <br />
+      <ion-card-subtitle>$65,990,000 CLP</ion-card-subtitle>
+      <br />
+      <ion-button (click)="alertabasica()">Comprar</ion-button>
+    
+    </ion-card-header>
+  </ion-card>
+
+
+  <ion-card>
+    <img alt="" src="assets/imgcard/rx7s.webp" />
+    <ion-card-header>
+      <ion-card-title>Mazda Rx-7</ion-card-title>
+      <br />
+      <ion-card-subtitle>132,702 km</ion-card-subtitle>
+      <ion-card-subtitle>Petroleo</ion-card-subtitle>
+      <ion-card-subtitle>Manual</ion-card-subtitle>
+      <br />
+      <ion-card-subtitle>$42,990,000 CLP</ion-card-subtitle>
+      <br />
+      <ion-button (click)="alertabasica()">Comprar</ion-button>
+    
+    </ion-card-header>
+  </ion-card>
+
+  <div padding *ngIf="usuario=='admin'">
+    <ion-row>
+      <ion-col col-4>
+        <ion-button color="medium" (click)="agregar()">Agregar</ion-button>
+      </ion-col>
+      <ion-col col-4>
+        <ion-button color="dark" (click)="presentAlertn3()">Editar</ion-button>
+      </ion-col>
+      <ion-col col-4>
+        <ion-button color="danger" (click)="presentAlertn2()">Eliminar</ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>
+
+
+<ion-footer [translucent]="true">
+  <ion-tab-bar color="dark" slot="bottom">
+    <ion-tab-button tab="home" [routerLink]="['/subasta']">
+      <ion-icon name="car-sport-outline"></ion-icon>
+      subasta
+    </ion-tab-button>
+    <ion-tab-button tab="library" [routerLink]="['/inicio']">
+      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+      Inicio
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

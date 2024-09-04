@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/Inicio"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Sobre Nosotros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-item>
+  <ion-label>
+    <div class="logo">
+      <img class="logo" alt="supermonkey-logo" src="/assets/logo/logo2.png">
+    </div>
+    <h1>𝓑𝓲𝓭 𝓓𝓻𝓲𝓿𝓮</h1>
+    <h2>Bid Drive es una empresa que organiza subastas de vehículos en Chile.</h2>
+    <p>La sucursal de Bid Drive en Las Condes está ubicada en una zona céntrica y accesible de Santiago, 
+      lo que facilita la participación de compradores interesados en adquirir vehículos a través de subastas.
+      <br />
+    </p>
+    <br />
+  </ion-label>
+</ion-item>
+
+<ion-footer [translucent]="true">
+  <ion-tab-bar color="dark" slot="bottom">
+    <ion-tab-button tab="home" [routerLink]="['/subasta']">
+      <ion-icon name="car-sport-outline"></ion-icon>
+      subasta
+    </ion-tab-button>
+    <ion-tab-button tab="library" [routerLink]="['/inicio']">
+      <ion-icon name="home-outline"></ion-icon>
+      Inicio
+    </ion-tab-button>
+    
+  </ion-tab-bar>
+</ion-footer>

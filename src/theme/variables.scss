@@ -1,2 +1,106 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+/** menu **/
+:root {
+    /** menu **/
+	--ion-color-menu: #292929;
+	--ion-color-menu-rgb: 41,41,41;
+	--ion-color-menu-contrast: #ffffff;
+	--ion-color-menu-contrast-rgb: 255,255,255;
+	--ion-color-menu-shade: #242424;
+	--ion-color-menu-tint: #3e3e3e;
+
+    /** submenu **/
+    --ion-color-submenu: #cfcfcf;
+	--ion-color-submenu-rgb: 207,207,207;
+	--ion-color-submenu-contrast: #000000;
+	--ion-color-submenu-contrast-rgb: 0,0,0;
+	--ion-color-submenu-shade: #b6b6b6;
+	--ion-color-submenu-tint: #d4d4d4;
+
+    /** cerrar sesion **/
+    --ion-color-cerrar: #cc0000;
+	--ion-color-cerrar-rgb: 204,0,0;
+	--ion-color-cerrar-contrast: #ffffff;
+	--ion-color-cerrar-contrast-rgb: 255,255,255;
+	--ion-color-cerrar-shade: #b40000;
+	--ion-color-cerrar-tint: #d11a1a;
+
+    /** agregar **/
+    --ion-color-agregar: #97bea0;
+	--ion-color-agregar-rgb: 151,190,160;
+	--ion-color-agregar-contrast: #000000;
+	--ion-color-agregar-contrast-rgb: 0,0,0;
+	--ion-color-agregar-shade: #85a78d;
+	--ion-color-agregar-tint: #a1c5aa;
+
+   /** Editar **/
+    --ion-color-editar: #568099;
+	--ion-color-editar-rgb: 86,128,153;
+	--ion-color-editar-contrast: #000000;
+	--ion-color-editar-contrast-rgb: 0,0,0;
+	--ion-color-editar-shade: #4c7187;
+	--ion-color-editar-tint: #678da3;
+
+    /** perfil **/
+    --ion-color-perfil: #ADD8E6;
+	--ion-color-perfil-rgb: 173,216,230;
+	--ion-color-perfil-contrast: #000000;
+	--ion-color-perfil-contrast-rgb: 0,0,0;
+	--ion-color-perfil-shade: #98beca;
+	--ion-color-perfil-tint: #b5dce9;
+
+
+.ion-color-perfil {
+	--ion-color-base: var(--ion-color-perfil);
+	--ion-color-base-rgb: var(--ion-color-perfil-rgb);
+	--ion-color-contrast: var(--ion-color-perfil-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-perfil-contrast-rgb);
+	--ion-color-shade: var(--ion-color-perfil-shade);
+	--ion-color-tint: var(--ion-color-perfil-tint);
+}
+.ion-color-editar {
+	--ion-color-base: var(--ion-color-editar);
+	--ion-color-base-rgb: var(--ion-color-editar-rgb);
+	--ion-color-contrast: var(--ion-color-editar-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-editar-contrast-rgb);
+	--ion-color-shade: var(--ion-color-editar-shade);
+	--ion-color-tint: var(--ion-color-editar-tint);
+}
+
+    .ion-color-agregar {
+        --ion-color-base: var(--ion-color-agregar);
+        --ion-color-base-rgb: var(--ion-color-agregar-rgb);
+        --ion-color-contrast: var(--ion-color-agregar-contrast);
+        --ion-color-contrast-rgb: var(--ion-color-agregar-contrast-rgb);
+        --ion-color-shade: var(--ion-color-agregar-shade);
+        --ion-color-tint: var(--ion-color-agregar-tint);
+    }
+
+    .ion-color-cerrar {
+        --ion-color-base: var(--ion-color-cerrar);
+        --ion-color-base-rgb: var(--ion-color-cerrar-rgb);
+        --ion-color-contrast: var(--ion-color-cerrar-contrast);
+        --ion-color-contrast-rgb: var(--ion-color-cerrar-contrast-rgb);
+        --ion-color-shade: var(--ion-color-cerrar-shade);
+        --ion-color-tint: var(--ion-color-cerrar-tint);
+    }
+
+    .ion-color-submenu {
+        --ion-color-base: var(--ion-color-submenu);
+        --ion-color-base-rgb: var(--ion-color-submenu-rgb);
+        --ion-color-contrast: var(--ion-color-submenu-contrast);
+        --ion-color-contrast-rgb: var(--ion-color-submenu-contrast-rgb);
+        --ion-color-shade: var(--ion-color-submenu-shade);
+        --ion-color-tint: var(--ion-color-submenu-tint);
+    }
+
+    .ion-color-menu {
+        --ion-color-base: var(--ion-color-menu);
+        --ion-color-base-rgb: var(--ion-color-menu-rgb);
+        --ion-color-contrast: var(--ion-color-menu-contrast);
+        --ion-color-contrast-rgb: var(--ion-color-menu-contrast-rgb);
+        --ion-color-shade: var(--ion-color-menu-shade);
+        --ion-color-tint: var(--ion-color-menu-tint);
+    }
+}

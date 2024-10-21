@@ -1,10 +1,10 @@
 <ion-content [fullscreen]="true" color="medium">
   <div id="container">
-    <ion-card color="dark">
-    <ion-img class="card-imagen"src="assets/logo/logob.png"/>
-    <div class="mat-raised-button" color="dark">
-      <button mat-raised-button routerLink="/login">COMENZAR</button>
-    </div>
+    <ion-card color="menu">
+      <ion-img class="card-imagen" src="assets/logo/logob.png"></ion-img>
+      <div class="mat-raised-button" color="dark">
+        <ion-button color="submenu" [routerLink]="['/login']">COMENZAR</ion-button>
+      </div>
     </ion-card>
   </div>
 </ion-content>

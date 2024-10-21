@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="menu">
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/subasta"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ford Raptor (2015)</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="submenu">
+  <ion-card>
+    
+      <img src="assets/imgcard/rap1.jpg" alt="Ford Raptor 1">
+      <img src="assets/imgcard/rap2.jpg" alt="Ford Raptor 2">
+      <img src="assets/imgcard/rap3.jpg" alt="Ford Raptor 3">
+      <img src="assets/imgcard/rap4.jpg" alt="Ford Raptor 4">
+     <img src="assets/imgcard/rap5.jpg" alt="Ford Raptor 5">
+   
+
+    <ion-card-header>
+      <ion-card-title class="card-title">Ford Raptor (2015)</ion-card-title>
+      <ion-card-subtitle>90,000 km</ion-card-subtitle>
+      <ion-card-subtitle>Bencina</ion-card-subtitle>
+      <ion-card-subtitle>Automática</ion-card-subtitle>
+      <ion-card-subtitle>$65,990,000 CLP</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <h2 class="cronometro-title">Cronómetro</h2>
+      <p class="cronometro-time">{{ tiempoFormateado }}</p>
+      <ion-item>
+        <ion-label>Puja (mínimo 500.000 CLP):</ion-label>
+        <ion-input type="number" [(ngModel)]="oferta" placeholder="Ingresa tu oferta"></ion-input>
+      </ion-item>
+      <ion-button expand="full" color="submenu" (click)="pujar()">Pujar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

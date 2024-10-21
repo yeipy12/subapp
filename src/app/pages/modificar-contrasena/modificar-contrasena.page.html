@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="menu">
+    <ion-buttons slot="start">
+      <ion-back-button default-href="perfil"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Modificar Contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="submenu" [fullscreen]="true" class="content-centered">
+  <ion-card class="form-card">
+    <form (ngSubmit)="actualizarContrasena()" class="formulario-contrasena">
+      <ion-item>
+        <ion-label position="stacked">Nueva Contraseña</ion-label>
+        <br/>
+        <ion-input 
+          [(ngModel)]="nuevaContrasena" 
+          name="nuevaContrasena" 
+          type="password" 
+          fill="outline" 
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Confirmar Contraseña</ion-label>
+        <br/>
+        <ion-input 
+          [(ngModel)]="confirmarContrasena" 
+          name="confirmarContrasena" 
+          type="password" 
+          fill="outline" 
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="isButtonDisabled">
+        <ion-label color="danger">
+          Las contraseñas deben coincidir y tener al menos 8 caracteres.
+        </ion-label>
+      </ion-item>
+
+      <ion-button 
+        expand="block" 
+        type="submit" 
+        color="menu" 
+        [disabled]="isButtonDisabled">
+        Actualizar Contraseña
+      </ion-button>
+    </form>
+  </ion-card>
+</ion-content>
+
+
+
+
+

@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="menu">
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/subasta"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mazda RX-7</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="submenu">
+  <ion-card>
+    
+      <img src="assets/imgcard/rx1.jpg" alt="Mazda RX-7 1">
+      <img src="assets/imgcard/rx2.jpg" alt="Mazda RX-7 2">
+      <img src="assets/imgcard/rx3.jpg" alt="Mazda RX-7 3">
+      <img src="assets/imgcard/rx4.jpg" alt="Mazda RX-7 4">
+      <img src="assets/imgcard/rx5.jpg" alt="Mazda RX-7 5">
+    
+
+    <ion-card-header>
+      <ion-card-title class="card-title">Mazda RX-7</ion-card-title>
+      <ion-card-subtitle>45,000 km</ion-card-subtitle>
+      <ion-card-subtitle>Gasolina</ion-card-subtitle>
+      <ion-card-subtitle>Manual</ion-card-subtitle>
+      <ion-card-subtitle>$15,000,000 CLP</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <h2 class="cronometro-title">Cronómetro</h2>
+      <p class="cronometro-time">{{ tiempoFormateado }}</p>
+      <ion-item>
+        <ion-label>Puja (mínimo 500.000 CLP):</ion-label>
+        <ion-input type="number" [(ngModel)]="oferta" placeholder="Ingresa tu oferta"></ion-input>
+      </ion-item>
+      <ion-button expand="full" color="submenu" (click)="pujar()">Pujar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

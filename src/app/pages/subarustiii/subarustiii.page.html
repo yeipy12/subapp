@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="menu">
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/subasta"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Subaru Impreza WRX (2016)</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="submenu">
+  <ion-card>
+    
+      <img src="assets/imgcard/su1.jpg" alt="Subaru WRX 1">
+      <img src="assets/imgcard/su2.jpg" alt="Subaru WRX 2">
+      <img src="assets/imgcard/su3.jpg" alt="Subaru WRX 3">
+      <img src="assets/imgcard/su4.jpg" alt="Subaru WRX 4">
+      <img src="assets/imgcard/su5.jpg" alt="Subaru WRX 5">
+    
+
+    <ion-card-header>
+      <ion-card-title class="card-title">Subaru Impreza WRX (2016)</ion-card-title>
+      <ion-card-subtitle>70,000 km</ion-card-subtitle>
+      <ion-card-subtitle>Bencina</ion-card-subtitle>
+      <ion-card-subtitle>Automática</ion-card-subtitle>
+      <ion-card-subtitle>$18,390,000 CLP</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <h2 class="cronometro-title">Cronómetro</h2>
+      <p class="cronometro-time">{{ tiempoFormateado }}</p>
+      <ion-item>
+        <ion-label>Puja (mínimo 500.000 CLP):</ion-label>
+        <ion-input type="number" [(ngModel)]="oferta" placeholder="Ingresa tu oferta"></ion-input>
+      </ion-item>
+      <ion-button expand="full" color="submenu" (click)="pujar()">Pujar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

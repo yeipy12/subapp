@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="dark">
+  <ion-toolbar color="menu">
     <ion-buttons slot="end">
       <ion-menu-button default-href="/subasta"></ion-menu-button>
     </ion-buttons>
@@ -10,10 +10,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content color="submenu" [fullscreen]="true">
 
+  
   <ion-card>
-    <img alt="" src="assets/imgcard/370zz.jpg" />
+    
+    <swiper-container>
+      <swiper-slide><img src="assets/imgcard/ni1.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/ni2.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/ni3.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/ni4.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/ni5.jpg"></swiper-slide>
+    </swiper-container>
     <ion-card-header>
       <ion-card-title>Nissan 370z Nismo (2012)</ion-card-title>
       <br />
@@ -23,13 +31,25 @@
       <br />
       <ion-card-subtitle>$25,400,000 CLP</ion-card-subtitle>
       <br />
-      <ion-button (click)="alertabasica()">Comprar</ion-button>
-
+      <ion-button color="submenu" (click)="irANissanz()">ver</ion-button>
     </ion-card-header>
   </ion-card>
 
+
+<br/>
+<br/>
+<br/>
+
+
   <ion-card>
-    <img alt="" src="assets/imgcard/impresas.jpg" />
+    
+    <swiper-container>
+      <swiper-slide><img src="assets/imgcard/su1.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/su2.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/su3.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/su4.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/su5.jpg"></swiper-slide>
+    </swiper-container>
     <ion-card-header>
       <ion-card-title>Subaru Impresa WRX (2016)</ion-card-title>
       <br />
@@ -39,13 +59,25 @@
       <br />
       <ion-card-subtitle>$18,390,000 CLP</ion-card-subtitle>
       <br />
-      <ion-button (click)="alertabasica()">Comprar</ion-button>
-    
+      <ion-button color="submenu" (click)="irASubarustiii()">ver</ion-button>
     </ion-card-header>
+    
   </ion-card>
+  
 
+  <br/>
+  <br/>
+  <br/>
+
+  
   <ion-card>
-    <img alt="" src="assets/imgcard/rapt.jpg" />
+    <swiper-container>
+      <swiper-slide><img src="assets/imgcard/rap1.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/rap2.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/rap3.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/rap4.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/rap5.jpg"></swiper-slide>
+    </swiper-container>
     <ion-card-header>
       <ion-card-title>Ford Raptor (2015)</ion-card-title>
       <br />
@@ -55,14 +87,25 @@
       <br />
       <ion-card-subtitle>$65,990,000 CLP</ion-card-subtitle>
       <br />
-      <ion-button (click)="alertabasica()">Comprar</ion-button>
-    
+      <ion-button color="submenu" (click)="irARaptorrrr()">ver</ion-button>
     </ion-card-header>
   </ion-card>
+  
 
+  <br/>
+  <br/>
+  <br/>
 
+  
   <ion-card>
-    <img alt="" src="assets/imgcard/rx7s.webp" />
+    
+    <swiper-container>
+      <swiper-slide><img src="assets/imgcard/rx1.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/rx2.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/rx3.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/rx4.jpg"></swiper-slide>
+      <swiper-slide><img src="assets/imgcard/rx5.jpg"></swiper-slide>
+    </swiper-container>
     <ion-card-header>
       <ion-card-title>Mazda Rx-7</ion-card-title>
       <br />
@@ -72,30 +115,18 @@
       <br />
       <ion-card-subtitle>$42,990,000 CLP</ion-card-subtitle>
       <br />
-      <ion-button (click)="alertabasica()">Comprar</ion-button>
-    
+      <ion-button color="submenu" (click)=" irAMazdarx77()">ver</ion-button>
     </ion-card-header>
+    
   </ion-card>
-
-  <div padding *ngIf="usuario=='admin'">
-    <ion-row>
-      <ion-col col-4>
-        <ion-button color="medium" (click)="agregar()">Agregar</ion-button>
-      </ion-col>
-      <ion-col col-4>
-        <ion-button color="dark" (click)="presentAlertn3()">Editar</ion-button>
-      </ion-col>
-      <ion-col col-4>
-        <ion-button color="danger" (click)="presentAlertn2()">Eliminar</ion-button>
-      </ion-col>
-    </ion-row>
-  </div>
-
+  <br/>
+  <br/>
+  <br/>
 </ion-content>
 
 
 <ion-footer [translucent]="true">
-  <ion-tab-bar color="dark" slot="bottom">
+  <ion-tab-bar color="menu" slot="bottom">
     <ion-tab-button tab="home" [routerLink]="['/subasta']">
       <ion-icon name="car-sport-outline"></ion-icon>
       subasta
@@ -103,6 +134,10 @@
     <ion-tab-button tab="library" [routerLink]="['/inicio']">
       <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
       Inicio
+    </ion-tab-button>
+    <ion-tab-button tab="home" [routerLink]="['/perfil']">
+      <ion-icon name="person-outline"></ion-icon>
+      Cuenta
     </ion-tab-button>
   </ion-tab-bar>
 </ion-footer>

@@ -35,15 +35,54 @@ const routes: Routes = [
     path: 'busqueda',
     loadChildren: () => import('./pages/busqueda/busqueda.module').then( m => m.BusquedaPageModule)
   },
-  
   {
     path: 'sobre',
     loadChildren: () => import('./pages/sobre/sobre.module').then( m => m.SobrePageModule)
   },
   {
+    path: 'recupecontra',
+    loadChildren: () => import('./pages/recupecontra/recupecontra.module').then( m => m.RecupecontraPageModule)
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'modificar-perfil',
+    loadChildren: () => import('./pages/modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
+  },
+  {
+    path: 'modificar-contrasena',
+    loadChildren: () => import('./pages/modificar-contrasena/modificar-contrasena.module').then( m => m.ModificarContrasenaPageModule)
+  },
+  {
+    path: 'nissanz',
+    loadChildren: () => import('./pages/nissanz/nissanz.module').then( m => m.NissanzPageModule)
+  },
+  {
+    path: 'raptorrrr',
+    loadChildren: () => import('./pages/raptorrrr/raptorrrr.module').then( m => m.RaptorrrrPageModule)
+  },
+  {
+    path: 'subarustiii',
+    loadChildren: () => import('./pages/subarustiii/subarustiii.module').then( m => m.SubarustiiiPageModule)
+  },
+  {
+    path: 'mazdarx77',
+    loadChildren: () => import('./pages/mazdarx77/mazdarx77.module').then( m => m.Mazdarx77PageModule)
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
-  },
+  }
+
+
+  
+
 ];
 
 @NgModule({

@@ -5,6 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { IonicModule } from '@ionic/angular';
 
 import { SubastaPageRoutingModule } from './subasta-routing.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { SubastaPage } from './subasta.page';
 
@@ -16,6 +17,8 @@ import { SubastaPage } from './subasta.page';
     SubastaPageRoutingModule,
     MatIconModule
   ],
-  declarations: [SubastaPage]
+  declarations: [SubastaPage],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SubastaPageModule {}
+

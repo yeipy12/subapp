@@ -1,21 +1,22 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="dark">
+  <ion-toolbar color="menu">
     <ion-buttons slot="start">
-      <ion-back-button default-href="/home"></ion-back-button>
+      <ion-back-button default-href="/login"></ion-back-button>
     </ion-buttons>
     <ion-title>Error: 500</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-item>
-<ion-label>
+<ion-card id="container">
+<ion-item color="submenu" >
+<ion-label >
   <div>
-    <img class="meme-notfound" src="/assets/notfound/notfound.jpg" alt="notfound-meme">
+    <img  class="meme-notfound" src="/assets/notfound/notfound.jpg" alt="notfound-meme">
   </div>
   <h1>Error 500:</h1>
   <br />
-
-  <p>la pagina que buscas no exite, por favor vuelva al Inicio.</p>
+  <p>la pagina que buscas no existe, por favor vuelva al Inicio.</p>
 </ion-label>
 </ion-item>
+</ion-card>
 

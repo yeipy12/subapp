@@ -1,33 +1,38 @@
-<ion-app color="dark">
-  <ion-menu-toggle>
-    <ion-menu side="end" contentId="main-content">
-      <ion-header>
-        <ion-toolbar color="dark">
-          <ion-title>Menu Principal</ion-title>
-        </ion-toolbar>
-      </ion-header>
-  
-      <ion-content>
-        <ion-list>
-          <ion-item [routerLink]="'/sobre'">
-            <ion-icon name="information-circle-outline"></ion-icon>
+<ion-app>
+
+  <!-- menú lateral -->
+  <ion-menu side="end" menuId="first" contentId="main-content">
+    <ion-header>
+      <ion-toolbar color="menu">
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content color="submenu">
+      <ion-list>
+          <ion-menu-toggle>
+          <ion-item detail="true" [routerLink]="['/sobre']">
+            <mat-icon>info</mat-icon>
             <ion-label>Sobre Nosotros</ion-label>
           </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
 
-        </ion-list>
-      </ion-content>
-  
-      <ion-item  [routerLink]="['/home']" (click)="presentAlert()"   color="danger">
-        <br />
-        <ion-icon name="close-circle-outline"></ion-icon>
-        <ion-label type="bottom">Cerrar Sesión</ion-label>
-      </ion-item>
-    </ion-menu>
-    </ion-menu-toggle>
-  
+    <ion-item detail="true" (click)="logoutUsuario()" color="cerrar">
+      <mat-icon>logout</mat-icon>
+      <ion-label>Cerrar sesión</ion-label>
+    </ion-item>
 
+  </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>
+
 </ion-app>
+
+
+
+
+
 
 
 

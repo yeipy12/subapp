@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { register } from 'swiper/element/bundle';
+import { ServicebdService } from './services/servicebd.service';
+import { addIcons } from 'ionicons';
+import { add } from 'ionicons/icons';
+
+register();
 
 @Component({
   selector: 'app-root',
@@ -7,15 +14,40 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private alertController: AlertController) {}
+  constructor(private alertController: AlertController,private router: Router, private bd: ServicebdService) {
+    addIcons({ add });
+  }
   
-  async presentAlert() {
+  async logoutUsuario() {
     const alert = await this.alertController.create({
-      header: 'Cierre de Sesión',
-      message: ' Su sesión se ha cerrado correctamente',
-      buttons: ['Aceptar'],
+      header: 'Confirmar',
+      message: '¿Estás seguro de que deseas cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Cerrar sesión',
+          handler: () => {
+            this.bd.logoutUsuario(); // Llama al método de logout en el servicio
+            this.router.navigate(['/login']); // Redirige a la página de login
+          }
+        }
+      ]
     });
-
+  
     await alert.present();
   }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Hasta pronto, Usuario!',
+      message: 'Su sesión se ha cerrado exitosamente.',
+      buttons: ['Aceptar'],
+    });
+  
+    await alert.present();
+  }
+
 }

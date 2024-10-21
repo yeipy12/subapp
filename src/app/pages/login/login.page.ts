@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import { eye, lockClosed } from 'ionicons/icons';
+import { AlertController, NavController } from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
   selector: 'app-login',
@@ -9,70 +11,48 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 
 export class LoginPage implements OnInit {
-  [x: string]: any;
+  nom_usuario: string = "";
+  contrasena: string = "";
+  rolUsuario: string | null = null;
 
-  usuarioAdmin: String = "admin";
-  ContrasenaAdmin: String = "admin1";
+  constructor(public alertController: AlertController,private navcontroller: NavController, private bd: ServicebdService) {
 
-  usucli: String = "yeipy";
-  usucontra: String = "12345"
+    addIcons({ eye, lockClosed });
 
-  usuario: String = "";
-  contrasena: String = "";
-  
-
-  constructor(public alertController: AlertController, private router: Router, private toastController: ToastController) { }
+   }
 
   ngOnInit() {
-  }
-  async presentAlert( titulo:string,texto:string) {
-    const alert = await this.alertController.create({
-      header: titulo,
-      message: texto,
-      buttons: ['Aceptar'],
-    });
+    const username = localStorage.getItem('nom_usuario');
+    this.rolUsuario = localStorage.getItem('id_rol');
 
-    await alert.present();
+    if (username) {
+      // Redirigir a la página de productos si hay un usuario logueado
+      this.navcontroller.navigateForward('/producto');
+    }
   }
-
-  valiusuario(){
-    if(this.usuario===this.usuarioAdmin && this.contrasena===this.ContrasenaAdmin){
-      let NavigationExtras: NavigationExtras ={
-        state:{
-          user:this.usuarioAdmin,
-          con: this.ContrasenaAdmin
+  loginUsuario() {
+    this.bd.getUsuario(this.nom_usuario, this.contrasena)
+      .then((usuario) => {
+        if (usuario) {
+          // Guardar el rol del usuario en localStorage
+          localStorage.setItem('id_rol', usuario.id_rol.toString()); // Asegúrate de convertir a string
+          localStorage.setItem('nom_usuario', usuario.nom_usuario);
+          
+          // Redirigir a la página de inicio o admin según el rol
+          if (Number(usuario.id_rol) === 1) { // Asegúrate de convertir a número para la comparación
+            this.navcontroller.navigateForward('/admin'); // Redirigir a la página admin
+          } else {
+            this.navcontroller.navigateForward('/inicio'); // Redirigir a la página de inicio para usuarios
+          }
+          
+          alert('Bienvenido a Bid Drive!');
+        } else {
+          alert('Usuario o contraseña incorrectos');
         }
-      }
-      this.presentAlert('Bienvenido sr', 'inicio de sesión correctamente.');
-      this.router.navigate(['/subasta'], NavigationExtras)
-    }
-    if(this.usuario===this.usucli && this.contrasena===this.usucontra){
-      let NavigationExtras: NavigationExtras ={
-        state:{
-          user: this.usucli,
-          con: this.usucontra
-        }
-      }
-      this.presentAlert('Bienvenido', 'inicio de sesión correctamente.');
-      this.router.navigate(['/inicio'], NavigationExtras)
-    }
-    if (this.usuario==="" || this.contrasena===""){
-
-      this.presentAlert('Los campos están vacíos','Por favor, ingrese sus datos correctamente');
-      return;
-    }if (this.contrasena!==this.ContrasenaAdmin && this.usuario!==this.usuarioAdmin && this.contrasena!==this.usucontra && this.usuario!==this.usucli){
-      
-      this.presentAlert('El usuario no existe','Por favor, ingrese sus datos nuevamente');
-      return;
-    }
-  }
-  async presentToast(position: 'middle', texto:string) {
-    const toast = await this.toastController.create({
-      message: texto,
-      duration: 1700,
-      position: position,
-    });
-
-    await toast.present();
+      })
+      .catch(e => {
+        console.error('Error en el login', e);
+        alert('Ocurrió un error en el inicio de sesión.');
+      });
   }
 }

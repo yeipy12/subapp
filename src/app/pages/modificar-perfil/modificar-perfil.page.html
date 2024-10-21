@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="menu">
+    <ion-buttons slot="start">
+      <ion-back-button default-href="perfil"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Modificar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="submenu" [fullscreen]="true" class="perfil-content">
+  <ion-card class="perfil-card" color="perfil">
+    <ion-card-header>
+      <ion-card-title class="perfil-title">Actualiza tu perfil</ion-card-title>
+    </ion-card-header>
+
+    <form (ngSubmit)="actualizarPerfil()" class="formulario-perfil">
+      <ion-item class="rounded-input">
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input [(ngModel)]="pnombre" name="pnombre" required></ion-input>
+      </ion-item>
+
+      <ion-item class="rounded-input">
+        <ion-label position="stacked">Apellido</ion-label>
+        <ion-input  [(ngModel)]="apellido" name="apellido"  required></ion-input>
+      </ion-item>
+
+      <ion-item class="rounded-input">
+        <ion-label position="stacked">Nombre de usuario</ion-label>
+        <ion-input  [(ngModel)]="nom_usuario" name="nom_usuario"  required></ion-input>
+      </ion-item>
+
+      <ion-item class="rounded-input">
+        <ion-label position="stacked">Correo electrónico</ion-label>
+        <ion-input  [(ngModel)]="correo" name="correo" type="email"  required></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" color="menu">Actualizar Perfil</ion-button>
+    </form>
+  </ion-card>
+</ion-content>
+
+

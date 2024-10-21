@@ -1,0 +1,27 @@
+.perfil-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.perfil-card {
+  width: 100%;
+  max-width: 400px; 
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-title {
+  text-align: center; 
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.formulario-perfil {
+  padding: 16px; 
+}
+.rounded-input {
+  --border-radius: 10px; 
+  margin-bottom: 16px; 
+}

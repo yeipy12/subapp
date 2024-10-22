@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
   selector: 'app-mazdarx77',
@@ -9,8 +10,10 @@ import { ActivatedRoute } from '@angular/router';
 export class Mazdarx77Page implements OnInit {
   tiempoRestante: number = 8000; 
   oferta: number = 500000; 
+  totalPuja: number = 0; 
+  mensaje: any;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,private servicebd: ServicebdService) {}
 
   ngOnInit() {
     this.iniciarCronometro();
@@ -33,6 +36,12 @@ export class Mazdarx77Page implements OnInit {
 
   pujar() {
     if (this.oferta >= 500000) {
+      this.totalPuja += this.oferta; 
+      this.mensaje = `Has pujado un total de: ${this.totalPuja} CLP. El auto es casi tuyo!`; 
+
+      
+      this.servicebd.asignarPuja(this.totalPuja, 'Mazda RX-7'); 
+
       console.log(`Puja realizada por: ${this.oferta} CLP`);
     } else {
       console.log('La puja debe ser de al menos 500.000 CLP.');

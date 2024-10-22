@@ -22,17 +22,19 @@
       <ion-card-subtitle>90,000 km</ion-card-subtitle>
       <ion-card-subtitle>Bencina</ion-card-subtitle>
       <ion-card-subtitle>Automática</ion-card-subtitle>
-      <ion-card-subtitle>$65,990,000 CLP</ion-card-subtitle>
+      <ion-card-subtitle>$30,990,000 CLP</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <h2 class="cronometro-title">Cronómetro</h2>
+      <h2 class="cronometro-title">Tiempo Restante</h2>
       <p class="cronometro-time">{{ tiempoFormateado }}</p>
       <ion-item>
-        <ion-label>Puja (mínimo 500.000 CLP):</ion-label>
+        <ion-label>Puja (mínimo 31,000,000 CLP):</ion-label>
         <ion-input type="number" [(ngModel)]="oferta" placeholder="Ingresa tu oferta"></ion-input>
       </ion-item>
       <ion-button expand="full" color="submenu" (click)="pujar()">Pujar</ion-button>
+      <br/>
+      <ion-label *ngIf="mensaje" class="puja-message">{{ mensaje }}</ion-label>
     </ion-card-content>
   </ion-card>
 </ion-content>

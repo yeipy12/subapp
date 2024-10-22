@@ -8,15 +8,18 @@
 </ion-header>
 
 <ion-content color="submenu" [fullscreen]="true">
-
   <div class="margin-form" *ngIf="usuario">
 
+    <br/>
+    <br/>
     <div class="avatar">
-      <ion-avatar>
+      <ion-avatar *ngIf="photo; else noImage">
+        <img [src]="photo" alt="Foto de perfil">
       </ion-avatar>
       <br />
     </div>
 
+    
     <ng-template #noImage>
       <div class="avatar">
         <ion-avatar>
@@ -26,33 +29,42 @@
       </div>
     </ng-template>
 
-<ion-card color="perfil" class="perfil-card">
-    <ion-label position="stacked">Nombre</ion-label>
-    <ion-input [readonly]="true" label="{{usuario.pnombre}}" fill="outline"></ion-input>
-    <br />
+    
+    <div class="center-button">
+      <ion-button color="perfil" class="ion-button-custom" (click)="takePicture()">Cambiar Foto</ion-button>
+      <ion-button color="perfil" class="ion-button-custom" (click)="guardarFoto()">Guardar Foto</ion-button>
 
-    <ion-label position="stacked">Apellido</ion-label>
-    <ion-input [readonly]="true" label="{{usuario.apellido}}" fill="outline"></ion-input>
-    <br />
+    </div>
 
-    <ion-label position="stacked">Nombre de usuario</ion-label>
-    <ion-input [readonly]="true" label="{{usuario.nom_usuario}}" fill="outline"></ion-input>
-    <br />
+    
+    <ion-card color="perfil" class="perfil-card">
+      <form (ngSubmit)="actualizarPerfil()">
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input [readonly]="true" label="{{usuario.pnombre}}" fill="outline"></ion-input>
+        <br />
 
-    <ion-label position="stacked">Correo electrónico</ion-label>
-    <ion-input [readonly]="true" type="email" label="{{usuario.correo}}" fill="outline"></ion-input>
+        <ion-label position="stacked">Apellido</ion-label>
+        <ion-input [readonly]="true" label="{{usuario.apellido}}" fill="outline"></ion-input>
+        <br />
 
-    <ion-button class="modificar" color="menu" [routerLink]="['/modificar-perfil']">Modificar datos</ion-button>
+        <ion-label position="stacked">Nombre de usuario</ion-label>
+        <ion-input [readonly]="true" label="{{usuario.nom_usuario}}" fill="outline"></ion-input>
+        <br />
 
-  </ion-card>
+        <ion-label position="stacked">Correo electrónico</ion-label>
+        <ion-input [readonly]="true" type="email" label="{{usuario.correo}}" fill="outline"></ion-input>
 
-    <br />
+        <ion-button class="modificar" color="menu" [routerLink]="['/modificar-perfil']">Modificar datos</ion-button>
+      </form>
+    </ion-card>
 
     <ion-label class="contrasena">
       <br />
       <p>¿Deseas modificar tu contraseña? <a [routerLink]="['/modificar-contrasena']">Entra aquí</a></p>
     </ion-label>
-
   </div>
 
+  <br/>
+  <br/>
+  <br/>
 </ion-content>

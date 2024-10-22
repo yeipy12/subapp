@@ -26,7 +26,6 @@ export class LoginPage implements OnInit {
     this.rolUsuario = localStorage.getItem('id_rol');
 
     if (username) {
-      // Redirigir a la página de productos si hay un usuario logueado
       this.navcontroller.navigateForward('/producto');
     }
   }
@@ -34,17 +33,16 @@ export class LoginPage implements OnInit {
     this.bd.getUsuario(this.nom_usuario, this.contrasena)
       .then((usuario) => {
         if (usuario) {
-          // Guardar el rol del usuario en localStorage
-          localStorage.setItem('id_rol', usuario.id_rol.toString()); // Asegúrate de convertir a string
+          localStorage.setItem('id_rol', usuario.id_rol.toString()); 
           localStorage.setItem('nom_usuario', usuario.nom_usuario);
-          
-          // Redirigir a la página de inicio o admin según el rol
-          if (Number(usuario.id_rol) === 1) { // Asegúrate de convertir a número para la comparación
-            this.navcontroller.navigateForward('/admin'); // Redirigir a la página admin
+          localStorage.setItem('id_usuario', usuario.id_usuario.toString()); 
+  
+          if (Number(usuario.id_rol) === 1) { 
+            this.navcontroller.navigateForward('/admin'); 
           } else {
-            this.navcontroller.navigateForward('/inicio'); // Redirigir a la página de inicio para usuarios
+            this.navcontroller.navigateForward('/inicio'); 
           }
-          
+  
           alert('Bienvenido a Bid Drive!');
         } else {
           alert('Usuario o contraseña incorrectos');
@@ -55,4 +53,4 @@ export class LoginPage implements OnInit {
         alert('Ocurrió un error en el inicio de sesión.');
       });
   }
-}
+}  

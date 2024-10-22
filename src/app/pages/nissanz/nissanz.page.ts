@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ServicebdService } from 'src/app/services/servicebd.service'; // Importa tu servicio aquí
+import { ServicebdService } from 'src/app/services/servicebd.service'; 
 
 @Component({
   selector: 'app-nissanz',
@@ -10,8 +10,8 @@ import { ServicebdService } from 'src/app/services/servicebd.service'; // Import
 export class NissanzPage implements OnInit {
   tiempoRestante: number = 7200; 
   oferta: number = 500000; 
-  totalPuja: number = 0; // Total de la puja acumulada
-  mensaje: string = ''; // Mensaje para el usuario
+  totalPuja: number = 0; 
+  mensaje: string = ''; 
 
   constructor(private route: ActivatedRoute, private servicebd: ServicebdService) {}
 
@@ -40,7 +40,7 @@ export class NissanzPage implements OnInit {
       this.mensaje = `Has pujado un total de: ${this.totalPuja} CLP. El auto es casi tuyo!`; 
 
       
-      this.servicebd.asignarPuja(this.totalPuja, 'Mazda RX-7'); 
+      this.servicebd.asignarPuja(this.totalPuja, 'Nissan 370z'); 
 
       console.log(`Puja realizada por: ${this.oferta} CLP`);
     } else {

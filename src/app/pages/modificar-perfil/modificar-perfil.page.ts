@@ -19,7 +19,7 @@ export class ModificarPerfilPage implements OnInit {
 
   ngOnInit() {
     const iduser2 = Number(localStorage.getItem('id_usuario'));
-    
+  
     if (iduser2) {
       this.bd.getUserPerfil(iduser2).then(() => {
         this.bd.fetchUsuario().subscribe((data: any) => {
@@ -39,7 +39,7 @@ export class ModificarPerfilPage implements OnInit {
     if (this.usuario) {
       this.bd.actualizarUsuario(this.usuario.id_usuario, this.pnombre, this.apellido, this.nom_usuario, this.correo)
         .then(() => {
-          this.router.navigate(['/perfil']);
+          this.router.navigate(['/inicio']);
         });
     }
   }

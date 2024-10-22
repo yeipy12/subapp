@@ -50,3 +50,34 @@ ion-avatar {
   .contrasena a:hover {
     text-decoration: underline; 
   }
+  .avatar ion-avatar {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
+  
+  .avatar ion-avatar img {
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .center-button {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%; 
+    margin-top: 20px; 
+  }
+  
+  .ion-button-custom {
+    background-color: #3880ff; 
+    color: white; 
+    border-radius: 8px; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    transition: background-color 0.3s; 
+  
+    &:hover {
+      background-color: #3171e0; 
+    }
+  }
+  

@@ -1,35 +1,39 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="menu">
-
     <ion-buttons slot="start">
-      <ion-back-button  default-href="/login"></ion-back-button>
+      <ion-back-button default-href="/login"></ion-back-button>
     </ion-buttons>
-    
     <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true" color="medium">
   <div id="container">
     <ion-card>
-      <br/>
-      <ion-title><img id="logo" src="/assets/logo/log1.PNG" ></ion-title>
-    <br />
-    <ion-title>Recuperar Contraseña</ion-title>
-    <br />
-    <p id="tes"> Introduzca una direccion de correo electrónico para
-      que podamos ponernos en contacto contigo mas adelante
-    </p>
-    <br />
-    <ion-input label="Correo electrónico" type="email" label-placement="floating" fill="outline" placeholder="Email@tipodedominio"></ion-input>
-    <br />
-    <div class="container-boton">
-      <ion-button color="submenu" class="boton">Recuperar</ion-button>
+      <br />
+      <ion-title>
+        <img id="logo" src="/assets/logo/log1.PNG">
+      </ion-title>
+      <br />
+      <ion-title>Recuperar Contraseña</ion-title>
+      <br />
+      <p id="tes"> Introduzca una dirección de correo electrónico para
+        que podamos ponernos en contacto contigo más adelante
+      </p>
+      <br />
+      <ion-input 
+        label="Correo electrónico" 
+        type="email" 
+        label-placement="floating" 
+        fill="outline" 
+        placeholder="Email@tipodedominio" 
+        [(ngModel)]="email"> 
+      </ion-input>
+      <br />
+      <div class="container-boton">
+        <ion-button color="submenu" class="boton" (click)="recoverPassword()">Recuperar</ion-button>
       </div>
-
     </ion-card>
   </div>
-  
-
 </ion-content>
+

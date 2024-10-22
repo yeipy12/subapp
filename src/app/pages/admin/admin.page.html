@@ -1,13 +1,66 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>admin</ion-title>
+<ion-header>
+  <ion-toolbar color="menu">
+    <ion-buttons slot="start">
+      <ion-back-button [routerLink]="['/inicio']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar Vehículo</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">admin</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content color="submenu">
+  <div class="form-container">
+    <ion-item>
+      <ion-label position="floating">Marca</ion-label>
+      <ion-input [(ngModel)]="nuevoVehiculo.marca"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Modelo</ion-label>
+      <ion-input [(ngModel)]="nuevoVehiculo.modelo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Kilómetros</ion-label>
+      <ion-input type="number" [(ngModel)]="nuevoVehiculo.km"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Combustible</ion-label>
+      <ion-select [(ngModel)]="nuevoVehiculo.combustible">
+        <ion-select-option value="Gasolina">Gasolina</ion-select-option>
+        <ion-select-option value="Diésel">Diésel</ion-select-option>
+        <ion-select-option value="Eléctrico">Eléctrico</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Transmisión</ion-label>
+      <ion-select [(ngModel)]="nuevoVehiculo.transmision">
+        <ion-select-option value="Manual">Manual</ion-select-option>
+        <ion-select-option value="Automática">Automática</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Precio</ion-label>
+      <ion-input type="number" [(ngModel)]="nuevoVehiculo.precio"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" color="tertiary" (click)="takePicture()">
+      <ion-icon name="camera-outline" slot="start"></ion-icon>
+      Tomar Foto
+    </ion-button>
+
+    <img *ngIf="nuevoVehiculo.foto" [src]="nuevoVehiculo.foto" class="vehicle-image"/>
+
+    <ion-button expand="block" color="success" (click)="agregarVehiculo()">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      Agregar Vehículo
+    </ion-button>
+  </div>
 </ion-content>
+
+
+
+
+

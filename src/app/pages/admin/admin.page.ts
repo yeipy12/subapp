@@ -32,7 +32,7 @@ export class AdminPage implements OnInit {
       this.vehiculos = await this.bd.obtenerVehiculos();
       console.log('Vehículos obtenidos:', this.vehiculos);
     } catch (error) {
-      console.error('Error al cargar vehículos:', error);
+      //console.error('Error al cargar vehículos:', error);
     }
   }
 

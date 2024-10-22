@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'; 
+import { Injectable } from '@angular/core';  
 import { SQLiteObject, SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
@@ -14,17 +14,17 @@ export class ServicebdService {
   http: any;
   public database!: SQLiteObject;
 
-  tablaVehiculo: string = `CREATE TABLE IF NOT EXISTS vehiculos (id INTEGER PRIMARY KEY AUTOINCREMENT,marca TEXT,modelo TEXT,km INTEGER,combustible TEXT,transmision TEXT,precio REAL,foto TEXT);`;
+  tablaVehiculo: string = `CREATE TABLE IF NOT EXISTS vehiculos (id INTEGER PRIMARY KEY AUTOINCREMENT, marca TEXT, modelo TEXT, km INTEGER, combustible TEXT, transmision TEXT, precio REAL, foto TEXT);`;
   tablaRol: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY NOT NULL, nom_rol VARCHAR(20) NOT NULL)";
-  tablaEstado: string = "CREATE TABLE IF NOT EXISTS estado(id_estado INTEGER PRIMARY KEY autoincrement NOT NULL, nom_estado VARCHAR(20) NOT NULL)";
+  tablaEstado: string = "CREATE TABLE IF NOT EXISTS estado(id_estado INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom_estado VARCHAR(20) NOT NULL)";
   tablaCategoria: string = "CREATE TABLE IF NOT EXISTS categoria(id_categoria INTEGER PRIMARY KEY NOT NULL, nomb_categoria VARCHAR(20) NOT NULL)";
   tablaUsuario: string = `CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, pnombre VARCHAR(20) NOT NULL, apellido VARCHAR(30) NOT NULL, nom_usuario VARCHAR(30) NOT NULL UNIQUE, correo VARCHAR(40) NOT NULL UNIQUE, contrasena VARCHAR(16), id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol(id_rol))`;
-  
+
   registroRolA: string = "INSERT or IGNORE INTO rol(id_rol, nom_rol) VALUES (1, 'Admin')";
   registroRolU: string = "INSERT or IGNORE INTO rol(id_rol, nom_rol) VALUES (2, 'Usuario')";
   registroAdmin: string = "INSERT OR IGNORE INTO usuario(id_usuario, pnombre, apellido, nom_usuario, correo, contrasena, id_rol) VALUES (1,'juan', 'iribarren','Yeipy', 'yeipy@gmail.com', '123456@Lol', 1)";
   registroUsuario: string = "INSERT OR IGNORE INTO usuario(id_usuario, pnombre, apellido, nom_usuario, correo, contrasena, id_rol) VALUES (2,'xey', 'xeyiri','xeyiri', 'xeyiri@gmail.com', 'xey12345.', 2)";
-  
+
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private usuarioBD = new BehaviorSubject<User | null>(null);
   nativeStorage: any;
@@ -33,10 +33,9 @@ export class ServicebdService {
     private router: Router,
     private sqlite: SQLite,
     private platform: Platform,
-    private alertController: AlertController,
-    private alert: ServicebdService
+    private alertController: AlertController
   ) {
-    this.crearBD();;
+    this.crearBD();
   }
 
   crearBD() {
@@ -57,29 +56,20 @@ export class ServicebdService {
       this.presentAlert('Platform Ready', 'Error: ' + JSON.stringify(e));
     });
   }
-  
-  async crearTablasAuto() {
+
+  async crearTablas() {
     try {
-      const sql = `CREATE TABLE IF NOT EXISTS vehiculos (id INTEGER PRIMARY KEY AUTOINCREMENT,marca TEXT,modelo TEXT,km INTEGER,combustible TEXT,transmision TEXT,precio REAL,foto TEXT)`;
-      await this.database.executeSql(sql, []);
-      console.log('Tabla vehiculos creada correctamente'); 
+      await this.database.executeSql(this.tablaRol, []);
+      await this.database.executeSql(this.tablaUsuario, []);
+      await this.database.executeSql(this.registroRolA, []);
+      await this.database.executeSql(this.registroRolU, []);
+      await this.database.executeSql(this.registroAdmin, []);
+      await this.database.executeSql(this.tablaVehiculo, []);
+      console.log('Todas las tablas creadas correctamente.');
     } catch (e) {
-      console.error('Error al crear la tabla vehiculos: ', e);
-      this.presentAlert('CrearTablAuto', 'Error: ' + JSON.stringify(e));
+      console.error('Error al crear las tablas: ', e); 
+      this.presentAlert('CrearTabla', 'Error: ' + JSON.stringify(e));
     }
-  }
-  async updateUserPhoto(id_usuario: number, photo: string) {
-    const sql = 'UPDATE usuarios SET foto = ? WHERE id_usuario = ?';
-    return this.database.executeSql(sql, [photo, id_usuario]).then(res => {
-      if (res.rowsAffected > 0) {
-        console.log('Foto actualizada correctamente.');
-      } else {
-        console.error('No se encontró el usuario para actualizar la foto.');
-      }
-    }).catch(e => {
-      console.error('Error al actualizar la foto', e);
-      throw e; 
-    });
   }
 
   async verificarTablass() {
@@ -103,23 +93,59 @@ export class ServicebdService {
     });
     await alert.present();
   }
-  
-  
 
-  async crearTablas() {
+  async obtenerVehiculos(): Promise<Vehiculo[]> {
+    const sql = 'SELECT * FROM vehiculos';
     try {
-      await this.database.executeSql(this.tablaRol, []);
-      await this.database.executeSql(this.tablaUsuario, []);
-      await this.database.executeSql(this.registroRolA, []);
-      await this.database.executeSql(this.registroRolU, []);
-      await this.database.executeSql(this.registroAdmin, []);
-      await this.database.executeSql(this.tablaVehiculo, []);
-      console.log('Todas las tablas creadas correctamente.');
-    } catch (e) {
-      console.error('Error al crear las tablas: ', e); 
-      this.presentAlert('CrearTabla', 'Error: ' + JSON.stringify(e));
+      const res = await this.database.executeSql(sql, []);
+      const vehiculos: Vehiculo[] = [];
+      for (let i = 0; i < res.rows.length; i++) {
+        vehiculos.push(res.rows.item(i));
+      }
+      return vehiculos;
+    } catch (error) {
+      console.error('Error al obtener vehículos:', error);
+      throw error; 
     }
   }
+
+  async insertarVehiculo(vehiculo: Vehiculo) {
+    return this.database.executeSql(
+      'INSERT INTO vehiculos (marca, modelo, km, combustible, transmision, precio, foto) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+      [vehiculo.marca, vehiculo.modelo, vehiculo.km, vehiculo.combustible, vehiculo.transmision, vehiculo.precio, vehiculo.foto]
+    ).then((res) => {
+      if (res.rowsAffected > 0) {
+        this.presentAlert("Vehículo agregado exitosamente", "El vehículo ha sido añadido a la subasta.");
+      } else {
+        this.presentAlert('Error', 'Error al insertar el vehículo.');
+      }
+    }).catch(e => {
+      this.presentAlert('Error', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
+  async eliminarVehiculo(id_vehiculo: number) {
+    const sql = 'DELETE FROM vehiculos WHERE id = ?';
+    return this.database.executeSql(sql, [id_vehiculo]).then(res => {
+      if (res.rowsAffected > 0) {
+        this.presentAlert('Éxito', 'Vehículo eliminado correctamente.');
+      } else {
+        this.presentAlert('Error', 'No se encontró el vehículo a eliminar.');
+      }
+    }).catch(e => {
+      this.presentAlert('Error', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
+  async actualizarVehiculo(id_vehiculo: number, marca: string, modelo: string, km: number, combustible: string, transmision: string, precio: number) {
+    const sql = 'UPDATE vehiculos SET marca = ?, modelo = ?, km = ?, combustible = ?, transmision = ?, precio = ? WHERE id = ?';
+    return this.database.executeSql(sql, [marca, modelo, km, combustible, transmision, precio, id_vehiculo]).then(() => {
+      this.presentAlert('Éxito', 'Vehículo actualizado correctamente.');
+    }).catch(e => {
+      this.presentAlert('Error', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
   async getUserPerfil(id: number): Promise<void> {
     return this.database.executeSql('SELECT * FROM usuario WHERE id_usuario = ?;', [id])
       .then(res => {
@@ -136,142 +162,6 @@ export class ServicebdService {
         }
       });
   }
-  
-  insertarVehiculo(vehiculo: Vehiculo) {
-    return this.database.executeSql(
-      'INSERT INTO vehiculos (marca, modelo, km, combustible, transmision, precio, foto) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-      [vehiculo.marca, vehiculo.modelo, vehiculo.km, vehiculo.combustible, vehiculo.transmision, vehiculo.precio, vehiculo.foto]
-    ).then((res) => {
-      if (res.rowsAffected > 0) {
-        this.presentAlert("Vehículo agregado exitosamente", "El vehículo ha sido añadido a la subasta.");
-        this.nativeStorage.setItem(`fotoVehiculo_${res.insertId}`, { foto: vehiculo.foto }).then(
-          () => console.log("Foto guardada en almacenamiento nativo"),
-          (error: any) => console.error("Error al guardar la foto", error)
-        );
-      } else {
-        this.presentAlert('Error', 'Error al insertar el vehículo.');
-      }
-    }).catch(e => {
-      this.presentAlert('Error', 'Error: ' + JSON.stringify(e));
-    });
-  }
-  
-
-async obtenerVehiculos(): Promise<Vehiculo[]> {
-  const sql = 'SELECT * FROM vehiculos';
-  try {
-    const res = await this.database.executeSql(sql, []);
-    const vehiculos: Vehiculo[] = [];
-    for (let i = 0; i < res.rows.length; i++) {
-      vehiculos.push(res.rows.item(i));
-    }
-    return vehiculos;
-  } catch (error) {
-    console.error('Error al obtener vehículos:', error);
-    throw error; 
-  }
-}
-
-async verificarTablas(): Promise<void> {
-  const sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='vehiculos';";
-  const res = await this.database.executeSql(sql, []);
-  if (res.rows.length === 0) {
-    console.error("La tabla 'vehiculos' no existe.");
-  } else {
-    console.log("La tabla 'vehiculos' existe.");
-  }
-}
-
-  async actualizarVehiculo(id_vehiculo: number, marca: string, modelo: string, km: number, combustible: string, transmision: string, precio: number) {
-    const sql = 'UPDATE vehiculo SET marca = ?, modelo = ?, km = ?, combustible = ?, transmision = ?, precio = ? WHERE id_vehiculo = ?';
-    return this.database.executeSql(sql, [marca, modelo, km, combustible, transmision, precio, id_vehiculo]).then(() => {
-      this.presentAlert('Éxito', 'Vehículo actualizado correctamente.');
-    }).catch(e => {
-      this.presentAlert('Error', 'Error: ' + JSON.stringify(e));
-    });
-  }
-
-  async eliminarVehiculo(id_vehiculo: number) {
-    const sql = 'DELETE FROM vehiculo WHERE id_vehiculo = ?';
-    return this.database.executeSql(sql, [id_vehiculo]).then(res => {
-      if (res.rowsAffected > 0) {
-        this.presentAlert('Éxito', 'Vehículo eliminado correctamente.');
-      } else {
-        this.presentAlert('Error', 'No se encontró el vehículo a eliminar.');
-      }
-    }).catch(e => {
-      this.presentAlert('Error', 'Error: ' + JSON.stringify(e));
-    });
-  }
-  
-
-//actualiza el perfil
-  actualizarUsuario(id_usuario: number, pnombre: string, apellido: string, nom_usuario: string, correo: string) {
-    const sql = `UPDATE usuario SET pnombre = ?, apellido = ?, nom_usuario = ?, correo = ? WHERE id_usuario = ?`;
-    return this.database.executeSql(sql, [pnombre, apellido, nom_usuario, correo, id_usuario])
-      .then(() => {
-        this.presentAlert('Perfil actualizado', 'Tus datos han sido actualizados correctamente.');
-      })
-      .catch(e => {
-        this.presentAlert('Error al actualizar', 'Error: ' + JSON.stringify(e));
-      });
-  }
-
-  async modificarContrasena(id_usuario: number, nuevaContrasena: string): Promise<void> {
-    try {
-      await this.database.executeSql('UPDATE usuario SET contrasena = ? WHERE id_usuario = ?', [nuevaContrasena, id_usuario]);
-      this.presentAlert('Éxito', 'Contraseña actualizada correctamente.');
-    } catch (e) {
-      console.error('Error al actualizar la contraseña:', e);
-      this.presentAlert('Error', 'No se pudo actualizar la contraseña.');
-    }
-  }
-
-  
-  async verificarUsuario(nom_usuario: string, correo: string): Promise<boolean> {
-    const res = await this.database.executeSql('SELECT * FROM usuario WHERE nom_usuario = ? OR correo = ?', [nom_usuario, correo]);
-    return res.rows.length > 0; 
-  }
-
-  getUsuario(nom_usuario: string, contrasena: string) {
-    return this.database.executeSql('SELECT * FROM usuario WHERE nom_usuario = ? AND contrasena = ?', [nom_usuario, contrasena]).then(res => {
-      let items: Usuario[] = [];
-      if (res.rows.length > 0) {
-        for (let i = 0; i < res.rows.length; i++) {
-          const usuario = res.rows.item(i);
-          console.log(usuario); 
-          
-          items.push({
-            id_usuario: usuario.id_usuario,
-            pnombre: usuario.pnombre,
-            apellido: usuario.apellido,
-            nom_usuario: usuario.nom_usuario,
-            correo: usuario.correo,
-            contrasena: usuario.contrasena,
-            id_rol: Number(usuario.id_rol) 
-          });
-        }
-      }
-      return items.length > 0 ? items[0] : null;
-    }).catch(e => {
-      console.error('Error al obtener el usuario:', e);
-      return null;
-    });
-  }
-  
-  
-  
-  
-  fetchUsuario(): Observable<User| null>{
-    return this.usuarioBD.asObservable();
-
-  }
-
-  logoutUsuario() {
-    localStorage.removeItem('id_usuario'); 
-    localStorage.removeItem('id_rol');
-    localStorage.removeItem('nom_usuario');
-  }
 
   insertarUsuario(pnombre: string, apellido: string, nom_usuario: string, correo: string, contrasena: string, id_rol: number) {
     return this.database.executeSql('INSERT INTO usuario(pnombre, apellido, nom_usuario, correo, contrasena, id_rol) VALUES (?, ?, ?, ?, ?, ?)', [pnombre, apellido, nom_usuario, correo, contrasena, id_rol]).then((res) => {
@@ -285,11 +175,31 @@ async verificarTablas(): Promise<void> {
       this.presentAlert('Registrar', 'Error: ' + JSON.stringify(e));
     });
   }
-  
-  asignarPuja(totalPuja: number, auto: string) {
-    console.log(`Actualizando la base de datos: Auto - ${auto}, Total de Puja - ${totalPuja} CLP`);
-    
-    
-}
 
+  getUsuario(nom_usuario: string, contrasena: string) {
+    return this.database.executeSql('SELECT * FROM usuario WHERE nom_usuario = ? AND contrasena = ?', [nom_usuario, contrasena]).then(res => {
+      let items: Usuario[] = [];
+      if (res.rows.length > 0) {
+        for (let i = 0; i < res.rows.length; i++) {
+          const usuario = res.rows.item(i);
+          items.push({
+            id_usuario: usuario.id_usuario,
+            pnombre: usuario.pnombre,
+            apellido: usuario.apellido,
+            nom_usuario: usuario.nom_usuario,
+            correo: usuario.correo,
+            contrasena: usuario.contrasena,
+            id_rol: usuario.id_rol
+          });
+        }
+      }
+      return items; 
+    }).catch(e => {
+      this.presentAlert('Login', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
+  get usuario$(): Observable<User | null> {
+    return this.usuarioBD.asObservable(); 
+  }
 }

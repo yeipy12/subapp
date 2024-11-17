@@ -109,7 +109,33 @@ export class ServicebdService {
     const idRol = localStorage.getItem('id_rol');
     return idRol === '1'; 
   }
-
+// subastas pero para ver que personas se logea
+  async obtenerUsuarioPorId(id_usuario: number): Promise<Usuario> {
+    const sql = 'SELECT id_usuario, pnombre, apellido, nom_usuario, correo, contrasena, id_rol, foto_perfil FROM usuario WHERE id_usuario = ?';
+    try {
+      const res = await this.database.executeSql(sql, [id_usuario]);
+      if (res.rows.length > 0) {
+        const usuario = res.rows.item(0);
+        const usuarioObj = new Usuario();
+        usuarioObj.id_usuario = usuario.id_usuario;
+        usuarioObj.pnombre = usuario.pnombre;
+        usuarioObj.apellido = usuario.apellido;
+        usuarioObj.nom_usuario = usuario.nom_usuario;
+        usuarioObj.correo = usuario.correo;
+        usuarioObj.contrasena = usuario.contrasena;
+        usuarioObj.id_rol = usuario.id_rol;
+        usuarioObj.foto_perfil = usuario.foto_perfil || '';  
+  
+        return usuarioObj;
+      } else {
+        throw new Error('Usuario no encontrado');
+      }
+    } catch (error) {
+      console.error('Error al obtener el usuario', error);
+      throw error;
+    }
+  }
+  
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
       header: titulo,

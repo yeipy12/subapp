@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="submenu">
-  <ion-card>
+  <ion-card class="card-main">
     
       <img src="assets/imgcard/su1.jpg" alt="Subaru WRX 1">
       <img src="assets/imgcard/su2.jpg" alt="Subaru WRX 2">
@@ -17,7 +17,7 @@
       <img src="assets/imgcard/su5.jpg" alt="Subaru WRX 5">
     
 
-    <ion-card-header>
+    <ion-card-header class="card-header">
       <ion-card-title class="card-title">Subaru Impreza WRX (2016)</ion-card-title>
       <ion-card-subtitle>70,000 km</ion-card-subtitle>
       <ion-card-subtitle>Bencina</ion-card-subtitle>
@@ -26,15 +26,42 @@
     </ion-card-header>
 
     <ion-card-content>
+      
+      
+
       <h2 class="cronometro-title">Tiempo Restante</h2>
       <p class="cronometro-time">{{ tiempoFormateado }}</p>
-      <ion-item>
+
+      <ion-item class="puja-item">
         <ion-label>Puja (mínimo 500.000 CLP):</ion-label>
         <ion-input type="number" [(ngModel)]="oferta" placeholder="Ingresa tu oferta"></ion-input>
       </ion-item>
+      
       <ion-button expand="full" color="submenu" (click)="pujar()">Pujar</ion-button>
-      <br/>
+      
       <ion-label *ngIf="mensaje" class="puja-message">{{ mensaje }}</ion-label>
+
+     
+      <ion-list class="historial-list">
+        <ion-item class="historial-item">
+          <ion-label>
+            <h3>Pujas Realizadas:</h3>
+  
+           
+            <div *ngFor="let historial of historialPujas">
+              <p><strong>{{ historial.usuario }}</strong></p>
+              <p *ngIf="historial.oferta">Puja realizada: ${{ historial.oferta | number }}</p>
+              <p *ngIf="historial.totalPuja">Total Acumulado: ${{ historial.totalPuja | number }}</p>
+              <p *ngIf="historial.accion">Acción: {{ historial.accion }}</p>
+              <p>{{ historial.fecha | date: 'short' }}</p>
+              <hr />
+            </div>
+  
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      
+      <h3>Total Puja: ${{ totalPuja | number }}</h3>
     </ion-card-content>
   </ion-card>
 </ion-content>

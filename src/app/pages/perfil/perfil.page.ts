@@ -11,7 +11,6 @@ import { ServicebdService } from 'src/app/services/servicebd.service';
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
 })
-
 export class PerfilPage implements OnInit {
 
   usuario!: User | null;
@@ -22,61 +21,73 @@ export class PerfilPage implements OnInit {
   ls1!: any;
   idUsuario: string | null = null;
   photo: string | null = null;
+  perfil: any;
 
-  constructor(public alertcontroller: AlertController, 
-              private router: Router, 
-              private activedroute: ActivatedRoute, 
-              private bd: ServicebdService) { 
-
+  constructor(
+    public alertcontroller: AlertController, 
+    private router: Router, 
+    private activedroute: ActivatedRoute, 
+    private bd: ServicebdService
+  ) { 
     this.activedroute.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.nom_usuario = this.router.getCurrentNavigation()?.extras?.state?.['user'];
       }
     });
   }
+
   ngOnInit() {
     this.obtenerPerfil();
-  const iduser2 = Number(this.idUsuario = localStorage.getItem('id_usuario'));
-  this.ls1 = localStorage.getItem('nom_usuario');
+    const iduser2 = Number(this.idUsuario = localStorage.getItem('id_usuario'));
+    this.ls1 = localStorage.getItem('nom_usuario');
 
-  this.bd.fetchUsuario().subscribe((data) => {
-    this.usuario = data;
-  });
-
-    this.bd.getUserPerfil(iduser2);
+    if (this.ls1) {
+      this.nom_usuario = this.ls1; 
+    }
 
     
     this.photo = localStorage.getItem('user_photo');
+
+    if (iduser2) {
+      this.bd.getUserPerfil(iduser2).then(() => {
+        this.bd.fetchUsuario().subscribe(usuario => {
+          this.usuario = usuario;
+          
+          if (this.usuario?.foto_perfil) {
+            this.photo = this.usuario.foto_perfil;
+          }
+        });
+      });
+    }
   }
 
-  
   takePicture = async () => {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
-      resultType: CameraResultType.Uri 
+      resultType: CameraResultType.Uri
     });
-    
-    if (image.webPath) {
-      this.photo = image.webPath;  
   
-      console.log("Imagen capturada:", this.photo);
-      this.guardarFoto(); 
+    if (image.webPath) {
+      this.photo = image.webPath; 
+      localStorage.setItem('user_photo', this.photo); 
     } else {
-      console.error("No se pudo obtener la imagen.");
+      console.error("No se pudo obtener la imagen."); 
     }
   };
-
+  
   guardarFoto = async () => {
     if (this.usuario?.id_usuario && this.photo) {
       try {
         await this.bd.updateUserPhoto(this.usuario.id_usuario, this.photo);
-        console.log("Foto guardada en la base de datos");
+        console.log("Foto guardada en la base de datos correctamente");
       } catch (error) {
-        console.error("Error al guardar la foto", error);
+        console.error("Error al guardar la foto:", error);
+        this.showAlert("Error al guardar la foto", JSON.stringify(error));
       }
     } else {
       console.error("ID de usuario o foto no disponible.");
+      this.showAlert("Error", "No se pudo guardar la foto, falta información.");
     }
   };
 
@@ -100,5 +111,17 @@ export class PerfilPage implements OnInit {
       });
     });
   }
+
+  async showAlert(title: string, message: string) {
+    const alert = await this.alertcontroller.create({
+      header: title,
+      message: message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
 }
+
+
+
 

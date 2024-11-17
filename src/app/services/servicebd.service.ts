@@ -18,12 +18,13 @@ export class ServicebdService {
   tablaRol: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY NOT NULL, nom_rol VARCHAR(20) NOT NULL)";
   tablaEstado: string = "CREATE TABLE IF NOT EXISTS estado(id_estado INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom_estado VARCHAR(20) NOT NULL)";
   tablaCategoria: string = "CREATE TABLE IF NOT EXISTS categoria(id_categoria INTEGER PRIMARY KEY NOT NULL, nomb_categoria VARCHAR(20) NOT NULL)";
-  tablaUsuario: string = `CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, pnombre VARCHAR(20) NOT NULL, apellido VARCHAR(30) NOT NULL, nom_usuario VARCHAR(30) NOT NULL UNIQUE, correo VARCHAR(40) NOT NULL UNIQUE, contrasena VARCHAR(16), id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol(id_rol))`;
+  tablaUsuario: string = `CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, pnombre VARCHAR(20) NOT NULL, apellido VARCHAR(30) NOT NULL,nom_usuario VARCHAR(30) NOT NULL UNIQUE, correo VARCHAR(40) NOT NULL UNIQUE,contrasena VARCHAR(16), id_rol INTEGER, foto TEXT,FOREIGN KEY (id_rol) REFERENCES rol(id_rol))`;
+  
 
   registroRolA: string = "INSERT or IGNORE INTO rol(id_rol, nom_rol) VALUES (1, 'Admin')";
   registroRolU: string = "INSERT or IGNORE INTO rol(id_rol, nom_rol) VALUES (2, 'Usuario')";
   registroAdmin: string = "INSERT OR IGNORE INTO usuario(id_usuario, pnombre, apellido, nom_usuario, correo, contrasena, id_rol) VALUES (1,'juan', 'iribarren','Yeipy', 'yeipy@gmail.com', '123456@Lol', 1)";
-  registroUsuario: string = "INSERT OR IGNORE INTO usuario(id_usuario, pnombre, apellido, nom_usuario, correo, contrasena, id_rol) VALUES (2,'xey', 'xeyiri','xeyiri', 'xeyiri@gmail.com', 'xey12345.', 2)";
+  registroUsuario: string = "INSERT OR IGNORE INTO usuario(id_usuario, pnombre, apellido, nom_usuario, correo, contrasena, id_rol) VALUES (2,'karla', 'barrientos','Karli', 'karli@gmail.com', 'Karli1234.', 2)";
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private usuarioBD = new BehaviorSubject<User | null>(null);
@@ -38,6 +39,7 @@ export class ServicebdService {
     this.crearBD();
   }
 
+  
   crearBD() {
     this.platform.ready().then(() => {
       console.log('Base de datos lista');
@@ -71,7 +73,13 @@ export class ServicebdService {
       this.presentAlert('CrearTabla', 'Error: ' + JSON.stringify(e));
     }
   }
-  
+
+  logoutUsuario() {
+    localStorage.removeItem('id_rol');
+    localStorage.removeItem('nom_usuario');
+    localStorage.removeItem('id_usuario');
+  }
+
   async crearTablasAuto() {
     try {
       const sql = `CREATE TABLE IF NOT EXISTS vehiculos (id INTEGER PRIMARY KEY AUTOINCREMENT,marca TEXT,modelo TEXT,km INTEGER,combustible TEXT,transmision TEXT,precio REAL,foto TEXT)`;
@@ -97,6 +105,11 @@ export class ServicebdService {
     });
   };
 
+  esAdmin(): boolean {
+    const idRol = localStorage.getItem('id_rol');
+    return idRol === '1'; 
+  }
+
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
       header: titulo,
@@ -105,6 +118,7 @@ export class ServicebdService {
     });
     await alert.present();
   }
+
   async verificarTablass() {
     try {
       const res = await this.database.executeSql("SELECT name FROM sqlite_master WHERE type='table' AND name='vehiculos'", []);
@@ -172,7 +186,7 @@ async verificarTablas(): Promise<void> {
   }
 }
 
-//actualiza el perfil
+
   actualizarUsuario(id_usuario: number, pnombre: string, apellido: string, nom_usuario: string, correo: string) {
     const sql = `UPDATE usuario SET pnombre = ?, apellido = ?, nom_usuario = ?, correo = ? WHERE id_usuario = ?`;
     return this.database.executeSql(sql, [pnombre, apellido, nom_usuario, correo, id_usuario])
@@ -258,6 +272,8 @@ async verificarTablas(): Promise<void> {
         throw e; 
       });
   }
+
+  
   async verificarUsuario(nom_usuario: string, correo: string): Promise<boolean> {
     const res = await this.database.executeSql('SELECT * FROM usuario WHERE nom_usuario = ? OR correo = ?', [nom_usuario, correo]);
     return res.rows.length > 0; 
@@ -274,13 +290,7 @@ async verificarTablas(): Promise<void> {
 
   }
 
-  logoutUsuario() {
-    localStorage.removeItem('id_usuario'); 
-    localStorage.removeItem('id_rol');
-    localStorage.removeItem('nom_usuario');
-  }
-
-  asignarPuja(totalPuja: number, auto: string) {
+asignarPuja(totalPuja: number, auto: string) {
     console.log(`Actualizando la base de datos: Auto - ${auto}, Total de Puja - ${totalPuja} CLP`);
     
     

@@ -11,8 +11,11 @@
 </ion-header>
 
 <ion-content color="submenu" [fullscreen]="true">
-
   
+  <br/>
+  <br/>
+  <br/>
+
   <ion-card>
     
     <swiper-container>
@@ -36,29 +39,40 @@
     </ion-card-header>
   </ion-card>
 
+  <br/>
+  <br/>
+  
 
-<br/>
-<br/>
-<br/>
+<ion-card *ngFor="let vehiculo of vehiculos">
+  <img [src]="vehiculo.foto" (error)="onImageError($event)" alt="{{vehiculo.marca}} {{vehiculo.modelo}}" class="vehiculo-imagen">
+  
+  <ion-card-header>
+    <ion-card-title>{{ vehiculo.marca }} {{ vehiculo.modelo }} ({{ vehiculo.year }})</ion-card-title>
+    <br />
+    <ion-card-subtitle>{{ vehiculo.km }} km</ion-card-subtitle>
+    <ion-card-subtitle>{{ vehiculo.combustible }}</ion-card-subtitle>
+    <ion-card-subtitle>{{ vehiculo.transmision }}</ion-card-subtitle>
+    <br />
+    <ion-card-subtitle>{{ vehiculo.precio | currency:'CLP' }}</ion-card-subtitle>
+    <br />
+  </ion-card-header>
 
-<ion-card class="vehiculo-card">
-  <ion-list>
-    <ion-item *ngFor="let vehiculo of vehiculos" class="vehiculo-item">
-      <ion-label>
-        <img [src]="vehiculo.foto" (error)="onImageError($event)" alt="{{vehiculo.marca}} {{vehiculo.modelo}}" class="vehiculo-imagen">
-        
-        <h2 class="vehiculo-titulo">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h2>
-        <p class="vehiculo-info">{{ vehiculo.km }} km - {{ vehiculo.combustible }} - {{ vehiculo.transmision }}</p>
-        <p class="vehiculo-precio"><strong>Precio: {{ vehiculo.precio | currency:'CLP' }}</strong></p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-button color="primary" expand="block" (click)="modificarVehiculo(vehiculo.id)">
+    Modificar
+  </ion-button>
+
+  
+  <ion-button color="danger" expand="block" (click)="eliminarVehiculo(vehiculo.id)">
+    Eliminar
+  </ion-button>
 </ion-card>
 
-<br/>
-<br/>
-<br/>
 
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
 
   <ion-card>
     
@@ -88,7 +102,8 @@
   <br/>
   <br/>
   <br/>
-
+  <br/>
+  <br/>
   
   <ion-card>
     <swiper-container>
@@ -116,7 +131,8 @@
   <br/>
   <br/>
   <br/>
-
+  <br/>
+  <br/>
   
   <ion-card>
     
@@ -144,6 +160,15 @@
   <br/>
   <br/>
   <br/>
+  <br/>
+  <br/>
+
+  <ion-fab  vertical="bottom" horizontal="end" slot="fixed" *ngIf="isAdmin">
+    <ion-fab-button color="menu" (click)="irAAdmin()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
 
 

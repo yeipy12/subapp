@@ -21,6 +21,11 @@ align-items: center;
 justify-content: center;
 }
 
+ion-fab {
+  margin-bottom: 16px; 
+  margin-right: 16px; 
+}
+
 .botones-centrados {
     display: flex;
     justify-content: center;
@@ -29,6 +34,8 @@ justify-content: center;
     margin-top: -10px; 
   }
 
+  
+  
   .vehiculo-card {
     margin: 10px;
     background-color: #f9f9f9; 

@@ -32,7 +32,7 @@ export class AdminPage implements OnInit {
       this.vehiculos = await this.bd.obtenerVehiculos();
       console.log('Vehículos obtenidos:', this.vehiculos);
     } catch (error) {
-      //console.error('Error al cargar vehículos:', error);
+      
     }
   }
 
@@ -54,7 +54,7 @@ export class AdminPage implements OnInit {
   
       this.bd.insertarVehiculo(vehiculo).then(() => {
         alert('Vehículo agregado exitosamente!');
-        this.navCtrl.navigateForward('/subasta');  
+        this.navCtrl.navigateForward('/inicio');  
       }).catch((e) => {
         console.error('Error al agregar vehículo:', e); 
         alert('Error al agregar vehículo: ' + JSON.stringify(e));

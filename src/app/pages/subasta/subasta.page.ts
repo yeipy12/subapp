@@ -37,9 +37,7 @@ export class SubastaPage implements OnInit {
   }
 
   checkAdminStatus() {
-    
-    const userRole = localStorage.getItem('id_rol');
-    this.isAdmin = userRole === 'admin'; 
+    this.isAdmin = this.bd.esAdmin(); 
   }
 
   onImageError(event: any) {
@@ -62,11 +60,25 @@ export class SubastaPage implements OnInit {
   irAMazdarx77() {
     this.router.navigate(['/mazdarx77']); 
   }
-
   modificarVehiculo(vehiculo: any) {
     
     console.log("Modificar vehículo", vehiculo);
     
     this.router.navigate(['/modificar-vehiculo'], { state: { vehiculo } });
   }
+
+  irAAdmin() {
+    this.router.navigate(['/admin']);
+}
+
+eliminarVehiculo(id: number) {
+  this.vehiculos = this.vehiculos.filter(vehiculo => vehiculo.id !== id);
+  this.bd.eliminarVehiculo(id).then(() => {
+    alert('Vehículo eliminado exitosamente');
+  }).catch((e) => {
+    console.error('Error al eliminar vehículo:', e);
+    alert('Error al eliminar vehículo');
+  });
+}
+
 }

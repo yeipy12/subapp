@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
   rolUsuario: string | null = null;
 
   constructor(
-    public alertController: AlertController,
+    private alertController: AlertController,
     private navController: NavController,
     private bd: ServicebdService
   ) {
@@ -24,38 +24,50 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    const username = localStorage.getItem('nom_usuario');
-    this.rolUsuario = localStorage.getItem('id_rol');
-
-    if (username) {
-      this.navController.navigateForward('/producto');
-    }
+    const nomUsuario = localStorage.getItem('nom_usuario');
+  const idRol = localStorage.getItem('id_rol');
+  
+  if (!nomUsuario || !idRol) {
+    this.navController.navigateRoot('/login'); 
+  }
   }
 
   async loginUsuario() {
     try {
       const usuarios: Usuario[] = await this.bd.getUsuario(this.nom_usuario, this.contrasena);
-      
+
       if (usuarios.length > 0) {
         const usuario = usuarios[0]; 
 
+        
         localStorage.setItem('id_rol', usuario.id_rol.toString());
         localStorage.setItem('nom_usuario', usuario.nom_usuario);
         localStorage.setItem('id_usuario', usuario.id_usuario.toString());
 
+        
         if (usuario.id_rol === 1) {
-          this.navController.navigateForward('/admin');
+          this.navController.navigateForward('/inicio');
         } else {
           this.navController.navigateForward('/inicio');
         }
 
-        alert('Bienvenido a Bid Drive!');
+        await this.presentAlert('Bienvenido a Bid Drive!');
       } else {
-        alert('Usuario o contraseña incorrectos');
+        await this.presentAlert('Usuario o contraseña incorrectos');
       }
     } catch (e) {
       console.error('Error en el login', e);
-      alert('Ocurrió un error en el inicio de sesión.');
+      await this.presentAlert('Ocurrió un error en el inicio de sesión.');
     }
   }
+
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Inicio de Sesión',
+      message: message,
+      buttons: ['Aceptar']
+    });
+    await alert.present();
+  }
 }
+

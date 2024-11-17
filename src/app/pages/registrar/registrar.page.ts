@@ -36,6 +36,7 @@ export class RegistrarPage implements OnInit {
       terminos: [false, Validators.requiredTrue]
     }, { validator: this.passwordsMatch });
   }
+
   passwordValidator(control: any) {
     const password = control.value;
     const hasLetter = /[a-zA-Z]/.test(password);
@@ -58,7 +59,14 @@ export class RegistrarPage implements OnInit {
       if (usuarioExistente) {
         this.serviceAlert.presentAlert('Error', 'El nombre de usuario o correo ya están en uso.'); 
       } else {
+        
         await this.bd.insertarUsuario(pnombre, apellido, nom_usuario, correo, contrasena, this.id_rol);
+        
+        
+        localStorage.setItem('usuario', JSON.stringify({ pnombre, apellido, nom_usuario, correo }));
+        
+        
+        this.router.navigate(['/login']);
       }
     }
   }
@@ -83,6 +91,7 @@ export class RegistrarPage implements OnInit {
     const control = this.form.get('apellido');
     return control?.touched && control.invalid;
   }
+
   getApellidoError() {
     const control = this.form.get('apellido');
     if (control?.hasError('required')) {
@@ -112,6 +121,7 @@ export class RegistrarPage implements OnInit {
     const control = this.form.get('correo');
     return control?.touched && control.invalid;
   }
+
   getCorreoError() {
     const control = this.form.get('correo');
     if (control?.hasError('required')) {
@@ -155,6 +165,5 @@ export class RegistrarPage implements OnInit {
     }
     return '';
   }
-
-  
 }
+

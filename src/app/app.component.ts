@@ -14,10 +14,14 @@ register();
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private alertController: AlertController,private router: Router, private bd: ServicebdService) {
+  constructor(
+    private alertController: AlertController,
+    private router: Router,
+    private bd: ServicebdService
+  ) {
     addIcons({ add });
   }
-  
+
   async logoutUsuario() {
     const alert = await this.alertController.create({
       header: 'Confirmar',
@@ -29,9 +33,10 @@ export class AppComponent {
         },
         {
           text: 'Cerrar sesión',
-          handler: () => {
-            this.bd.logoutUsuario(); // Llama al método de logout en el servicio
-            this.router.navigate(['/login']); // Redirige a la página de login
+          handler: async () => {
+            this.bd.logoutUsuario(); 
+            await this.presentAlert(); 
+            this.router.navigate(['/login']); 
           }
         }
       ]
@@ -49,5 +54,5 @@ export class AppComponent {
   
     await alert.present();
   }
-
 }
+

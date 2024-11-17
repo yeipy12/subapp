@@ -10,31 +10,26 @@
 <ion-content color="submenu" [fullscreen]="true">
   <div class="margin-form" *ngIf="usuario">
 
-    <br/>
-    <br/>
+    <br />
+    <br />
     <div class="avatar">
       <ion-avatar *ngIf="photo; else noImage">
         <img [src]="photo" alt="Foto de perfil">
       </ion-avatar>
+      <ng-template #noImage>
+        <div class="avatar">
+          <ion-avatar>
+            <img alt="Imagen predeterminada" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+          </ion-avatar>
+        </div>
+      </ng-template>
       <br />
     </div>
 
-    
-    <ng-template #noImage>
-      <div class="avatar">
-        <ion-avatar>
-          <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
-        </ion-avatar>
-        <br />
-      </div>
-    </ng-template>
-
-    
     <div class="center-button">
       <ion-button color="perfil" class="ion-button-custom" (click)="takePicture()">Cambiar Foto</ion-button>
     </div>
 
-    
     <ion-card color="perfil" class="perfil-card">
       <form (ngSubmit)="actualizarPerfil()">
         <ion-label position="stacked">Nombre</ion-label>
@@ -51,19 +46,19 @@
 
         <ion-label position="stacked">Correo electrónico</ion-label>
         <ion-input [readonly]="true" type="email" value="{{usuario.correo}}" fill="outline"></ion-input>
-
         <ion-button class="modificar" color="menu" [routerLink]="['/modificar-perfil']">Modificar datos</ion-button>
       </form>
     </ion-card>
 
-    
     <ion-label class="contrasena">
       <br />
       <p>¿Deseas modificar tu contraseña? <a [routerLink]="['/modificar-contrasena']">Entra aquí</a></p>
     </ion-label>
   </div>
 
-  <br/>
-  <br/>
-  <br/>
+  <br />
+  <br />
+  <br />
 </ion-content>
+
+

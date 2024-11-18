@@ -20,7 +20,7 @@ export class PerfilPage implements OnInit {
   correo: string = "";
   ls1!: any;
   idUsuario: string | null = null;
-  photo: string | null = null;  // Foto de perfil actual
+  photo: string | null = null;  
   perfil: any;
 
   constructor(
@@ -37,7 +37,7 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit() {
-    // Obtener el id_usuario desde localStorage
+    
     const iduser2 = Number(this.idUsuario = localStorage.getItem('id_usuario'));
     this.ls1 = localStorage.getItem('nom_usuario');
 
@@ -45,21 +45,21 @@ export class PerfilPage implements OnInit {
       this.nom_usuario = this.ls1; 
     }
 
-    // Recuperar la foto desde localStorage si existe para el usuario actual
+   
     if (iduser2) {
       this.photo = localStorage.getItem(`user_photo_${iduser2}`);
     }
 
     if (iduser2) {
-      // Obtener el perfil del usuario desde la base de datos
+      
       this.bd.getUserPerfil(iduser2).then(() => {
         this.bd.fetchUsuario().subscribe(usuario => {
           this.usuario = usuario;
           
-          // Asocia la foto desde la base de datos
+          
           if (this.usuario?.foto_perfil) {
             this.photo = this.usuario.foto_perfil;
-            // Guardar la foto de la base de datos en localStorage
+            
             localStorage.setItem(`user_photo_${this.usuario.id_usuario}`, this.photo);
           }
         });
@@ -67,7 +67,7 @@ export class PerfilPage implements OnInit {
     }
   }
 
-  // Función para tomar una foto
+  
   takePicture = async () => {
     const image = await Camera.getPhoto({
       quality: 90,
@@ -76,9 +76,9 @@ export class PerfilPage implements OnInit {
     });
 
     if (image.webPath) {
-      // Asignar la foto tomada a la variable photo
+      
       this.photo = image.webPath;
-      // Guardar la foto en localStorage para el usuario actual
+      
       if (this.usuario) {
         localStorage.setItem(`user_photo_${this.usuario.id_usuario}`, this.photo);
       }
@@ -87,15 +87,15 @@ export class PerfilPage implements OnInit {
     }
   };
 
-  // Función para guardar la foto en la base de datos
+  
   guardarFoto = async () => {
     if (this.usuario?.id_usuario && this.photo) {
       try {
-        // Guardar la foto en la base de datos asociada al usuario
+        
         await this.bd.updateUserPhoto(this.usuario.id_usuario, this.photo);
         console.log("Foto guardada en la base de datos correctamente");
 
-        // Guardar la foto también en localStorage para el usuario actual
+        
         localStorage.setItem(`user_photo_${this.usuario.id_usuario}`, this.photo);
       } catch (error) {
         console.error("Error al guardar la foto:", error);
@@ -107,7 +107,7 @@ export class PerfilPage implements OnInit {
     }
   };
 
-  // Función para actualizar otros datos del perfil
+  
   actualizarPerfil() {
     if (this.usuario) {
       this.bd.actualizarUsuario(
@@ -120,7 +120,7 @@ export class PerfilPage implements OnInit {
     }
   }
 
-  // Función para mostrar alertas
+  
   async showAlert(title: string, message: string) {
     const alert = await this.alertcontroller.create({
       header: title,

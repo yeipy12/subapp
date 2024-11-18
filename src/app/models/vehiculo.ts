@@ -7,4 +7,5 @@ export interface Vehiculo {
   transmision: string;
   precio: number | null;
   foto: string; 
+  
 }

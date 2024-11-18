@@ -18,7 +18,9 @@ export class AdminPage implements OnInit {
     combustible: '',
     transmision: '',
     precio: null,
-    foto: '' 
+    foto: '',
+    estado: '',
+    imagen:''
   };
   
   constructor(private bd: ServicebdService, private navCtrl: NavController) {}
@@ -49,7 +51,7 @@ export class AdminPage implements OnInit {
         combustible: this.nuevoVehiculo.combustible,
         transmision: this.nuevoVehiculo.transmision,
         precio: this.nuevoVehiculo.precio,
-        foto: this.nuevoVehiculo.foto 
+        foto: this.nuevoVehiculo.foto
       };
   
       this.bd.insertarVehiculo(vehiculo).then(() => {

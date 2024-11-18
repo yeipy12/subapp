@@ -25,11 +25,14 @@ export class InicioPage implements OnInit {
   }
 
   async obtenerUbicacion() {
-    const coordinates = await Geolocation.getCurrentPosition();
-    console.log('Ubicación actual: ', coordinates);
-    
-    
-    this.latitud = coordinates.coords.latitude;
-    this.longitud = coordinates.coords.longitude;
+    try {
+      const coordinates = await Geolocation.getCurrentPosition();
+      console.log('Ubicación actual: ', coordinates);
+      this.latitud = coordinates.coords.latitude;
+      this.longitud = coordinates.coords.longitude;
+    } catch (error) {
+      console.error('Error obteniendo la ubicación:', error);
+      alert('No se pudo obtener la ubicación. Por favor, habilita los permisos de ubicación.');
+    }
   }
 }

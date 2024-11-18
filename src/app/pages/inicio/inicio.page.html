@@ -40,10 +40,16 @@
       <ion-card-title>Ubicación Actual</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>Latitud: {{ latitud }}</p>
-      <p>Longitud: {{ longitud }}</p>
+      <p *ngIf="latitud !== undefined && longitud !== undefined">
+        Latitud: {{ latitud }}<br />
+        Longitud: {{ longitud }}
+      </p>
+      <p *ngIf="latitud === undefined || longitud === undefined">
+        Cargando ubicación...
+      </p>
     </ion-card-content>
   </ion-card>
+  
 </ion-content>
 
 <ion-footer [translucent]="true">

@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import { SQLiteObject, SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
-import { User } from '../models/user';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Usuario } from '../models/usuario';
 import { Vehiculo } from '../models/vehiculo';
+import { User } from '../models/user';
+import { HttpClient } from '@angular/common/http';
+
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +19,7 @@ export class ServicebdService {
   getData(): Observable<any> {
     return of('real data');  
   }
+  
   http: any;
   public database!: SQLiteObject;
 
@@ -37,7 +43,7 @@ export class ServicebdService {
     private router: Router,
     private sqlite: SQLite,
     private platform: Platform,
-    private alertController: AlertController
+    private alertController: AlertController,
   ) {
     this.crearBD();
   }
@@ -89,6 +95,18 @@ export class ServicebdService {
     localStorage.removeItem('id_usuario');
   }
 
+  initializeDatabase() {
+    return this.database.executeSql(this.tablaRol, []).then(() => {
+      return this.database.executeSql(this.tablaUsuario, []);
+    }).then(() => {
+      return this.database.executeSql(this.registroRolA, []);
+    }).then(() => {
+      return this.database.executeSql(this.registroAdmin, []);
+    }).then(() => {
+      return this.database.executeSql(this.registroUsuario, []);
+    });
+  }
+  
   async crearTablasAuto() {
     try {
       const sql = `CREATE TABLE IF NOT EXISTS vehiculos (id INTEGER PRIMARY KEY AUTOINCREMENT,marca TEXT,modelo TEXT,km INTEGER,combustible TEXT,transmision TEXT,precio REAL,foto TEXT)`;
@@ -242,23 +260,6 @@ async verificarTablas(): Promise<void> {
     });
   }
 
-  async getUserPerfil(id: number): Promise<void> {
-    return this.database.executeSql('SELECT * FROM usuario WHERE id_usuario = ?;', [id])
-      .then(res => {
-        if (res.rows.length > 0) {
-          const user: User = new User(
-            res.rows.item(0).id_usuario,
-            res.rows.item(0).pnombre,
-            res.rows.item(0).apellido,
-            res.rows.item(0).nom_usuario,
-            res.rows.item(0).correo,
-            res.rows.item(0).id_rol,
-          );
-          this.usuarioBD.next(user); 
-        }
-      });
-  }
-
   insertarUsuario(pnombre: string, apellido: string, nom_usuario: string, correo: string, contrasena: string, id_rol: number) {
     return this.database.executeSql('INSERT INTO usuario(pnombre, apellido, nom_usuario, correo, contrasena, id_rol) VALUES (?, ?, ?, ?, ?, ?)', [pnombre, apellido, nom_usuario, correo, contrasena, id_rol]).then((res) => {
       if (res.rowsAffected > 0) {
@@ -308,6 +309,69 @@ async verificarTablas(): Promise<void> {
       });
   }
 
+
+
+  getUserPerfil(userId: number): void {
+    this.sqlite.create({ name: 'mydb.db', location: 'default' })
+      .then((db: SQLiteObject) => {
+        db.executeSql('SELECT * FROM usuario WHERE id_usuario = ?', [userId])
+          .then((res) => {
+            if (res.rows.length > 0) {
+              const usuario = res.rows.item(0); 
+              this.usuarioBD.next({
+                id_usuario: usuario.id_usuario,
+                pnombre: usuario.pnombre,
+                apellido: usuario.apellido,
+                nom_usuario: usuario.nom_usuario,
+                correo: usuario.correo,
+                id_rol: usuario.id_rol,
+                foto_perfil: usuario.foto_perfil || 'path_to_photo.jpg', 
+              });
+            } else {
+              this.usuarioBD.next(null);
+            }
+          })
+          .catch((error) => {
+            console.error('Error al obtener el perfil del usuario:', error);
+            this.usuarioBD.next(null); 
+          });
+      });
+  }
+
+  fetchUsuario(): Observable<any> {
+    return this.usuarioBD.asObservable();
+  }
+
+
+  
+
+  getUser(nom_usuario: string, contrasena: string): Observable<Usuario | null> {
+    return new Observable(observer => {
+      this.database.executeSql('SELECT * FROM usuario WHERE nom_usuario = ? AND contrasena = ?', [nom_usuario, contrasena])
+        .then(res => {
+          if (res.rows.length > 0) {
+            const usuario = res.rows.item(0); 
+            const usuarioObj: Usuario = {
+              id_usuario: usuario.id_usuario,
+              pnombre: usuario.pnombre,
+              apellido: usuario.apellido,
+              nom_usuario: usuario.nom_usuario,
+              correo: usuario.correo,
+              contrasena: usuario.contrasena,
+              id_rol: usuario.id_rol
+            };
+            observer.next(usuarioObj);
+          } else {
+            observer.next(null);
+          }
+          observer.complete();
+        })
+        .catch(e => {
+          console.error('Error al obtener el usuario:', e);
+          observer.error(e);
+        });
+    });
+  }
   
   async verificarUsuario(nom_usuario: string, correo: string): Promise<boolean> {
     const res = await this.database.executeSql('SELECT * FROM usuario WHERE nom_usuario = ? OR correo = ?', [nom_usuario, correo]);
@@ -317,14 +381,6 @@ async verificarTablas(): Promise<void> {
   get usuario$(): Observable<User | null> {
     return this.usuarioBD.asObservable(); 
   }
-
-  
-  
-  fetchUsuario(): Observable<User| null>{
-    return this.usuarioBD.asObservable();
-
-  }
-
 asignarPuja(totalPuja: number, auto: string) {
     console.log(`Actualizando la base de datos: Auto - ${auto}, Total de Puja - ${totalPuja} CLP`);
     

@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ServicebdService } from './servicebd.service';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
+import { BehaviorSubject } from 'rxjs';
+import { fakeAsync, tick } from '@angular/core/testing';
 
-
-// Mock de SQLiteObject
 class MockSQLiteObject {
   executeSql(query: string, params: any[]): Promise<any> {
-    if (query.startsWith('SELECT * FROM usuario')) {
-      // Simulamos una respuesta para una consulta SELECT
+    if (query === 'SELECT * FROM usuario WHERE id_usuario = ?' && params[0] === 1) {
       return Promise.resolve({
         rows: {
           length: 1,
@@ -18,16 +17,18 @@ class MockSQLiteObject {
             nom_usuario: 'juanp',
             correo: 'juanp@example.com',
             id_rol: 1,
-            foto_perfil: 'path_to_photo.jpg',
+            foto_perfil: null, 
           }),
         },
       });
     }
-    return Promise.resolve({ rows: { length: 0, item: () => null } });
+    return Promise.resolve({
+      rows: { length: 0, item: () => null },
+    });
   }
 }
 
-// Mock del servicio SQLite
+
 class MockSQLite {
   create(): Promise<SQLiteObject> {
     return Promise.resolve(new MockSQLiteObject() as any);
@@ -41,7 +42,7 @@ describe('ServicebdService', () => {
     TestBed.configureTestingModule({
       providers: [
         ServicebdService,
-        { provide: SQLite, useClass: MockSQLite }, // Mock del SQLite
+        { provide: SQLite, useClass: MockSQLite },
       ],
     });
 
@@ -52,24 +53,28 @@ describe('ServicebdService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get user profile correctly', async () => {
-    // Simulamos obtener el usuario por ID
+  it('should get user profile correctly', fakeAsync(() => {
     const userId = 1;
-    await service.getUserPerfil(userId);
-
-    // Usamos el BehaviorSubject para comprobar si la respuesta fue correcta
-    service.fetchUsuario().subscribe((usuario) => {
-      expect(usuario).toEqual({
-        id_usuario: 1,
-        pnombre: 'Juan',
-        apellido: 'Pérez',
-        nom_usuario: 'juanp',
-        correo: 'juanp@example.com',
-        id_rol: 'Number',
-        foto_perfil: 'path_to_photo.jpg',
-      });
+  
+    service.getUserPerfil(userId);
+  
+    let usuario: any;
+    service.fetchUsuario().subscribe((data) => (usuario = data));
+  
+    tick(); 
+  
+    expect(usuario).toEqual({
+      id_usuario: 1,
+      pnombre: 'Juan',
+      apellido: 'Pérez',
+      nom_usuario: 'juanp',
+      correo: 'juanp@example.com',
+      id_rol: 1,
+      foto_perfil: 'path_to_photo.jpg',
     });
-  });
+  }));
 });
+
+
 
 

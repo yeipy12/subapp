@@ -5,7 +5,8 @@ export class Usuario {
     nom_usuario!: string;
     correo!: string; 
     contrasena!: string;
-    id_rol!: number;
+    id_rol!: number | string; 
     foto_perfil?: string; 
+    
 }
 

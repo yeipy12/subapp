@@ -34,11 +34,11 @@ describe('RaptorrrrPage', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('se crea', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize cronómetro', () => {
+  it('iniciar cronometro', () => {
     component.tiempoRestante = 7200; 
     expect(component.tiempoRestante).toBe(7200); 
 
@@ -60,12 +60,12 @@ describe('RaptorrrrPage', () => {
   
   
 
-  it('should format time correctly', () => {
+  it('formatear la hora correctamente', () => {
     component.tiempoRestante = 3661; 
     expect(component.tiempoFormateado).toBe('01:01:01');
   });
 
-  it('should register a bid (puja)', () => {
+  it('registra la oferta de (puja)', () => {
     component.oferta = 500000;
     component.pujar();
     expect(component.totalPuja).toBe(500000);
@@ -74,7 +74,7 @@ describe('RaptorrrrPage', () => {
     expect(component.mensaje).toContain('El auto es casi tuyo');
   });
 
-  it('should not register a bid below 500,000', () => {
+  it('que no se registre una oferta inferior a 500,000', () => {
     component.oferta = 499999;
     component.pujar();
     expect(component.totalPuja).toBe(0);

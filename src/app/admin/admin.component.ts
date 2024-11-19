@@ -11,6 +11,7 @@ import { Vehiculo } from '../models/vehiculo';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
+  [x: string]: any;
   vehiculos: Vehiculo[] = [];
   nuevoVehiculo: Vehiculo = {
     id: 0,
@@ -19,9 +20,10 @@ export class AdminComponent implements OnInit {
     km: 0,
     combustible: '',
     transmision: '',
-    precio: null,
-    foto: ''  
+    precio: 0, 
+    foto: ''
   };
+  
 
   constructor(
     private servicebd: ServicebdService, 
@@ -35,76 +37,107 @@ export class AdminComponent implements OnInit {
     this.verificarAcceso();
   }
 
+  
   async cargarVehiculos() {
-    this.vehiculos = await this.servicebd.obtenerVehiculos();
-  }
-
-  agregarVehiculo() {
-    if (this.nuevoVehiculo.marca && this.nuevoVehiculo.modelo && this.nuevoVehiculo.km && this.nuevoVehiculo.precio && this.nuevoVehiculo.foto) {
-      this.servicebd.insertarVehiculo(this.nuevoVehiculo).then(() => {
-        alert('Vehículo agregado exitosamente!');
-      }).catch((e) => {
-        alert('Error al agregar vehículo: ' + JSON.stringify(e));
-      });
-    } else {
-      alert('Por favor, completa todos los campos.');
+    try {
+      this.vehiculos = await this.servicebd.obtenerVehiculos();
+    } catch (error) {
+      console.error('Error al cargar vehículos:', error);
+      alert('Error al cargar los vehículos.');
     }
   }
 
   
-  tomarFoto() {
-    this.camera.getPicture({
-      correctOrientation: true,  
-      destinationType: this.camera.DestinationType.DATA_URL, 
-    }).then((imageData) => {
-      this.nuevoVehiculo.foto = 'data:image/jpeg;base64,' + imageData;  
-    }).catch((error) => {
-      console.error('Error al tomar la foto', error);
-      alert('Error al tomar la foto');
+  async agregarVehiculo() {
+    if (
+      this.nuevoVehiculo.marca &&
+      this.nuevoVehiculo.modelo &&
+      this.nuevoVehiculo.km &&
+      this.nuevoVehiculo.precio !== null && 
+      this.nuevoVehiculo.foto
+    ) {
+      console.log('Campos completos, llamando insertarVehiculo');
+      try {
+        await this.servicebd.insertarVehiculo(this.nuevoVehiculo);
+        alert('Vehículo agregado exitosamente!');
+      } catch (e) {
+        alert('Error al agregar vehículo: ' + JSON.stringify(e));
+      }
+    } else {
+      alert('Por favor, completa todos los campos.');
+    }
+  }
+  
+  
+
+  
+async tomarFoto() {
+  try {
+    const imageData = await this.camera.getPicture({
+      correctOrientation: true,
+      destinationType: this.camera.DestinationType.DATA_URL,
     });
+    this.nuevoVehiculo.foto = 'data:image/jpeg;base64,' + imageData;
+  } catch (error) {
+    console.error('Error al tomar la foto', error);
+    alert('Error al tomar la foto');
   }
+}
 
-  cargarVehiculoss() {
-    this.servicebd.obtenerVehiculos().then((vehiculos) => {
-      console.log(vehiculos); 
-      this.vehiculos = vehiculos;
-      this.vehiculos.forEach(v => console.log(v.foto)); 
-    }).catch(e => {
-      console.error('Error al cargar vehículos', e);
-    });
+
+  
+  async editarVehiculo(id: number) {
+    try {
+      const actualizado = { 
+        marca: 'Mazda', 
+        modelo: 'RX-7', 
+        km: 50000, 
+        combustible: 'Gasolina', 
+        transmision: 'Manual', 
+        precio: 14000000 
+      };
+      await this.servicebd.actualizarVehiculo(
+        id,
+        actualizado.marca,
+        actualizado.modelo,
+        actualizado.km,
+        actualizado.combustible,
+        actualizado.transmision,
+        actualizado.precio
+      );
+      alert('Vehículo actualizado exitosamente!');
+    } catch (error) {
+      console.error('Error al actualizar vehículo:', error);
+      alert('Error al actualizar el vehículo.');
+    }
   }
-
-  editarVehiculo(id: number) {
-    const actualizado = { 
-      marca: 'Mazda', 
-      modelo: 'RX-7', 
-      km: 50000, 
-      combustible: 'Gasolina', 
-      transmision: 'Manual', 
-      precio: 14000000 
-    };
-    this.servicebd.actualizarVehiculo(
-      id, 
-      actualizado.marca, 
-      actualizado.modelo, 
-      actualizado.km, 
-      actualizado.combustible, 
-      actualizado.transmision, 
-      actualizado.precio
-    );
+  
+  async eliminarVehiculo(id: number) {
+    try {
+      await this.servicebd.eliminarVehiculo(id);
+      alert('Vehículo eliminado exitosamente!');
+    } catch (error) {
+      console.error('Error al eliminar vehículo:', error);
+      alert('Error al eliminar el vehículo.');
+    }
   }
+  
 
-  eliminarVehiculo(id: number) {
-    this.servicebd.eliminarVehiculo(id);
-  }
-
-  verificarAcceso() {
-    const rol = localStorage.getItem('id_rol');
-    if (rol !== '1') {
+  
+  async verificarAcceso() {
+    try {
+      const rol = await this.nativeStorage.getItem('id_rol');
+      if (rol !== '1') {
+        this.router.navigate(['/inicio']);
+      }
+    } catch (error) {
+      console.error('Error al verificar acceso:', error);
       this.router.navigate(['/inicio']);
     }
   }
+  
 }
+
 
 
 

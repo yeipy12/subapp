@@ -9,9 +9,7 @@
 
 <ion-content color="submenu" [fullscreen]="true">
   <div class="margin-form" *ngIf="usuario">
-
-    <br />
-    <br />
+    <br /><br />
     <div class="avatar">
       <ion-avatar *ngIf="photo; else noImage">
         <img [src]="photo" alt="Foto de perfil">
@@ -55,10 +53,9 @@
       <p>¿Deseas modificar tu contraseña? <a [routerLink]="['/modificar-contrasena']">Entra aquí</a></p>
     </ion-label>
   </div>
-
-  <br />
-  <br />
-  <br />
+  
+  <br /><br /><br />
 </ion-content>
+
 
 

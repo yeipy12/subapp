@@ -11,7 +11,7 @@ import { ServicebdService } from 'src/app/services/servicebd.service';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-  private usuario!: User | null;
+  public usuario!: User | null;
    
   nom_usuario: string = "";
   pnombre: string = "";
@@ -21,6 +21,7 @@ export class PerfilPage implements OnInit {
   idUsuario: string | null = null;
   photo: string | null = null;  
   perfil: any;
+  
 
   constructor(
     public alertcontroller: AlertController, 
@@ -36,8 +37,10 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit() {
-    const iduser2 = Number(this.idUsuario = localStorage.getItem('id_usuario'));
-    this.ls1 = localStorage.getItem('nom_usuario');
+    const iduser2 = Number(localStorage.getItem('id_usuario'));  
+    this.ls1 = localStorage.getItem('nom_usuario');  
+
+    
     if (this.ls1) {
       this.nom_usuario = this.ls1;
     }
@@ -45,17 +48,21 @@ export class PerfilPage implements OnInit {
       this.photo = localStorage.getItem(`user_photo_${iduser2}`);
     }
     if (iduser2) {
-      this.bd.getUserPerfil(iduser2).then(() => {
-        this.bd.fetchUsuario().subscribe(usuario => {
-          this.usuario = usuario;
-          if (this.usuario?.foto_perfil) {
-            this.photo = this.usuario.foto_perfil;
-            localStorage.setItem(`user_photo_${this.usuario.id_usuario}`, this.photo);
-          }
-        });
+      
+      this.bd.getUserPerfil(iduser2);
+
+      
+      this.bd.usuario$.subscribe(usuario => {
+        this.usuario = usuario;
+        if (this.usuario?.foto_perfil) {
+          this.photo = this.usuario.foto_perfil;
+          
+          localStorage.setItem(`user_photo_${this.usuario.id_usuario}`, this.photo);
+        }
       });
     }
   }
+
 
   
   get usuarioData() {

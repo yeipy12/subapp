@@ -39,7 +39,7 @@ describe('ModificarContrasenaPage', () => {
     fixture.detectChanges();
   });
 
-  it('should call modificarContrasena when contrasenas match and are valid', fakeAsync(() => {
+  it('llamando al modificarcontrasena cuando la contrasema coincidan y sean validas', fakeAsync(() => {
     
     spyOn(localStorage, 'getItem').and.returnValue('123');
 
@@ -60,7 +60,7 @@ describe('ModificarContrasenaPage', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/perfil']);
   }));
 
-  it('should show an alert if contrasenas do not match', fakeAsync(() => {
+  it('mostrar la elerta si la contrasena no concide', fakeAsync(() => {
     const service = TestBed.inject(ServicebdService);
     spyOn(service, 'presentAlert').and.callThrough();
 
@@ -74,7 +74,7 @@ describe('ModificarContrasenaPage', () => {
     expect(service.presentAlert).toHaveBeenCalledWith('Error', 'Las contraseñas deben coincidir y tener al menos 8 caracteres.');
   }));
 
-  it('should disable the button when contrasenas do not match or are too short', () => {
+  it('decirle al boton cuando las contraseña no coincidan o que sean demasido cortas', () => {
     
     component.nuevaContrasena = 'short';
     component.confirmarContrasena = 'mismatch';

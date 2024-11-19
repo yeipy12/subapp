@@ -16,12 +16,12 @@ export class RegistrarPage implements OnInit {
   constructor(
     private bd: ServicebdService,
     private router: Router,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private ServicealertService: ServicealertService 
   ) {}
 
   ngOnInit() {
-    this.form = this.fb.group({
+    this.form = this.formBuilder.group({
       pnombre: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
       apellido: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
       nom_usuario: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
@@ -36,6 +36,7 @@ export class RegistrarPage implements OnInit {
       terminos: [false, Validators.requiredTrue]
     }, { validator: this.passwordsMatch });
   }
+  
 
   passwordValidator(control: any) {
     const password = control.value;
@@ -54,14 +55,19 @@ export class RegistrarPage implements OnInit {
 
   async crear() {
     if (this.form.valid) {
-      const { pnombre, apellido, nom_usuario, correo, contrasena } = this.form.value;
-      const usuarioExistente = await this.bd.verificarUsuario(nom_usuario, correo); 
-      if (usuarioExistente) {
-        this.ServicealertService.presentAlert('Error', 'El nombre de usuario o correo ya están en uso.'); 
-      } else {
-        await this.bd.insertarUsuario(pnombre, apellido, nom_usuario, correo, contrasena, this.id_rol);
-        localStorage.setItem('usuario', JSON.stringify({ pnombre, apellido, nom_usuario, correo }));
-        this.router.navigate(['/login']);
+      try {
+        const { pnombre, apellido, nom_usuario, correo, contrasena } = this.form.value;
+        const usuarioExistente = await this.bd.verificarUsuario(nom_usuario, correo); 
+        if (usuarioExistente) {
+          this.ServicealertService.presentAlert('Error', 'El nombre de usuario o correo ya están en uso.'); 
+        } else {
+          await this.bd.insertarUsuario(pnombre, apellido, nom_usuario, correo, contrasena, this.id_rol);
+          localStorage.setItem('usuario', JSON.stringify({ pnombre, apellido, nom_usuario, correo }));
+          this.router.navigate(['/login']);
+        }
+      } catch (error) {
+        console.error('Error al crear usuario:', error);
+        this.ServicealertService.presentAlert('Error', 'Hubo un problema al crear el usuario. Inténtalo nuevamente.');
       }
     }
   }
@@ -72,15 +78,24 @@ export class RegistrarPage implements OnInit {
     return control?.touched && control.invalid;
   }
 
-  getNombreError() {
-    const control = this.form.get('pnombre');
+  getError(controlName: string): string {
+    const control = this.form?.get(controlName);
     if (control?.hasError('required')) {
-      return 'El nombre es requerido';
+      return `${controlName} es requerido.`;
     } else if (control?.hasError('pattern')) {
-      return 'El nombre solo debe contener letras';
+      return `${controlName} tiene un formato incorrecto.`;
+    } else if (control?.hasError('minlength')) {
+      return `${controlName} debe tener al menos ${control.getError('minlength').requiredLength} caracteres.`;
+    } else if (control?.hasError('maxlength')) {
+      return `${controlName} no puede tener más de ${control.getError('maxlength').requiredLength} caracteres.`;
+    } else if (control?.hasError('invalidPassword')) {
+      return `La contraseña debe contener letras, números y símbolos.`;
+    } else if (control?.hasError('passwordsDoNotMatch')) {
+      return 'Las contraseñas no coinciden.';
     }
     return '';
   }
+  
 
   isApellidoInvalid() {
     const control = this.form.get('apellido');

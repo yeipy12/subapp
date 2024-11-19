@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Usuario } from '../models/usuario';
 import { Vehiculo } from '../models/vehiculo';
 import { User } from '../models/user';
-import { HttpClient } from '@angular/common/http';
+
 
 
 
@@ -70,7 +70,7 @@ export class ServicebdService {
         this.presentAlert('CrearBD', 'Error: ' + JSON.stringify(e));
       });
     }).catch(e => {
-      this.presentAlert('Platform Ready', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Platform Ready', 'Error: ' + JSON.stringify(e));
     });
   }
 
@@ -85,7 +85,7 @@ export class ServicebdService {
       console.log('Todas las tablas creadas correctamente.');
     } catch (e) {
       console.error('Error al crear las tablas: ', e); 
-      this.presentAlert('CrearTabla', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('CrearTabla', 'Error: ' + JSON.stringify(e));
     }
   }
 

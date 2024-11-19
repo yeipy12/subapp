@@ -13,6 +13,6 @@ export class ServicealertService {
       message: msj,
       buttons: ['OK'],
     });
-    await alert.present();
+    //await alert.present();
   }
 }

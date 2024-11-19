@@ -35,7 +35,7 @@
       <ion-card-subtitle>$25,400,000 CLP</ion-card-subtitle>
       <br />
       <ion-button color="submenu" (click)="irANissanz()">ver</ion-button>
-      <ion-button color="primary" *ngIf="isAdmin" (click)="modificarVehiculo(vehiculos)">Modificar</ion-button>
+      
     </ion-card-header>
   </ion-card>
 
@@ -44,6 +44,7 @@
   
 
 <ion-card *ngFor="let vehiculo of vehiculos">
+  <title>Próximas subastas</title>
   <img [src]="vehiculo.foto" (error)="onImageError($event)" alt="{{vehiculo.marca}} {{vehiculo.modelo}}" class="vehiculo-imagen">
   
   <ion-card-header>
@@ -57,9 +58,7 @@
     <br />
   </ion-card-header>
 
-  <ion-button color="primary" expand="block" (click)="modificarVehiculo(vehiculo.id)">
-    Modificar
-  </ion-button>
+  
 
   
   <ion-button color="danger" expand="block" (click)="eliminarVehiculo(vehiculo.id)">
@@ -123,7 +122,7 @@
       <ion-card-subtitle>$30,990,000 CLP</ion-card-subtitle>
       <br />
       <ion-button color="submenu" (click)="irARaptorrrr()">ver</ion-button>
-      <ion-button color="primary" *ngIf="isAdmin" (click)="modificarVehiculo(vehiculos)">Modificar</ion-button>
+      
     </ion-card-header>
   </ion-card>
   
@@ -153,7 +152,7 @@
       <ion-card-subtitle>$42,990,000 CLP</ion-card-subtitle>
       <br />
       <ion-button color="submenu" (click)=" irAMazdarx77()">ver</ion-button>
-      <ion-button color="primary" *ngIf="isAdmin" (click)="modificarVehiculo(vehiculos)">Modificar</ion-button>
+      
     </ion-card-header>
     
   </ion-card>

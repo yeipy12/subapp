@@ -51,13 +51,13 @@ describe('RegistrarPage', () => {
     fixture.detectChanges();
   });
 
-  it('should initialize form', () => {
+  it('se inicia el formulario', () => {
     expect(component.form).toBeDefined();
     expect(component.form instanceof FormGroup).toBeTrue();
   });
   
 
-  it('should initialize form correctly', async () => {
+  it('se inicia el formulario correctamente', async () => {
     await fixture.whenStable();
     expect(component.form).toBeDefined();
   });

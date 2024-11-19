@@ -49,11 +49,11 @@ describe('ServicebdService', () => {
     service = TestBed.inject(ServicebdService);
   });
 
-  it('should be created', () => {
+  it('se crea', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get user profile correctly', fakeAsync(() => {
+  it('usar el perfil correctamente', fakeAsync(() => {
     const userId = 1;
   
     service.getUserPerfil(userId);

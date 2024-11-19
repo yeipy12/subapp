@@ -50,11 +50,13 @@ export class AdminComponent implements OnInit {
   
   async agregarVehiculo() {
     if (
-      this.nuevoVehiculo.marca &&
-      this.nuevoVehiculo.modelo &&
-      this.nuevoVehiculo.km &&
-      this.nuevoVehiculo.precio !== null && 
-      this.nuevoVehiculo.foto
+      this.nuevoVehiculo.marca?.trim() &&  
+      this.nuevoVehiculo.modelo?.trim() &&  
+      !isNaN(this.nuevoVehiculo.km) &&      
+      this.nuevoVehiculo.precio !== null &&  
+      !isNaN(this.nuevoVehiculo.precio) &&  
+      this.nuevoVehiculo.foto?.trim() !== undefined &&  
+      this.nuevoVehiculo.foto?.trim() !== ""  
     ) {
       console.log('Campos completos, llamando insertarVehiculo');
       try {
@@ -67,6 +69,7 @@ export class AdminComponent implements OnInit {
       alert('Por favor, completa todos los campos.');
     }
   }
+  
   
   
 

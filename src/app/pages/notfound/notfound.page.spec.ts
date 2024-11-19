@@ -11,7 +11,7 @@ describe('NotfoundPage', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('se crea', () => {
     expect(component).toBeTruthy();
   });
 });

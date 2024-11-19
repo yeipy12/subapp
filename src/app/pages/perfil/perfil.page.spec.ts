@@ -73,11 +73,11 @@ describe('PerfilPage', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('se crea', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get the user from router state', () => {
+  it('estado del uso del enrutador', () => {
     component.ngOnInit();  
 
     expect(component.nom_usuario).toBe('usuario_prueba');  

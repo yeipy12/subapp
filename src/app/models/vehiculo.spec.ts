@@ -1,7 +1,7 @@
 import { Vehiculo } from './vehiculo';
 
 describe('Vehiculo', () => {
-  it('should create a valid Vehiculo object', () => {
+  it('se crea la validacion del objeto del vehiculo', () => {
     const vehiculo: Vehiculo = {
       id: 1,
       marca: 'Toyota',

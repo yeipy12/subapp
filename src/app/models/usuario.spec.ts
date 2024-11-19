@@ -1,7 +1,7 @@
 import { Usuario } from './usuario';
 
 describe('Usuario', () => {
-  it('should create an instance', () => {
+  it('se crea la instancia', () => {
     expect(new Usuario()).toBeTruthy();
   });
 });

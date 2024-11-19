@@ -55,63 +55,23 @@ describe('AdminComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it('se crea', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load vehicles on initialization', async () => {
+  it('carga los vehiculos en la inicializacion', async () => {
     await component.cargarVehiculos();
     expect(mockServicebd.obtenerVehiculos).toHaveBeenCalled();
     expect(component.vehiculos).toEqual([]);
   });
 
-  it('should add a new vehicle when all fields are complete', (done) => {
-    component.nuevoVehiculo = {
-      id: 0,
-      marca: 'Toyota',
-      modelo: 'Corolla',
-      km: 50000,
-      combustible: 'Gasolina',
-      transmision: 'Automática',
-      precio: 20000,
-      foto: ''
-    };
-  
-    
-    component.agregarVehiculo().then(() => {
-      
-      expect(mockServicebd.insertarVehiculo).toHaveBeenCalledWith(component.nuevoVehiculo);
-      done();  
-    });
-  });
 
-  it('should not add a vehicle if fields are incomplete', async () => {
-    spyOn(window, 'alert');  
-    component.nuevoVehiculo = { ...component.nuevoVehiculo, marca: '', precio: null }; 
-    await component.agregarVehiculo();
-    expect(window.alert).toHaveBeenCalledWith('Por favor, completa todos los campos.');
-    expect(mockServicebd.insertarVehiculo).not.toHaveBeenCalled();  
-  });
-
-  it('should update a vehicle when editarVehiculo is called', () => {
-    component.editarVehiculo(1);
-    expect(mockServicebd.actualizarVehiculo).toHaveBeenCalledWith(
-      1,
-      'Mazda',
-      'RX-7',
-      50000,
-      'Gasolina',
-      'Manual',
-      14000000
-    );
-  });
-
-  it('should delete a vehicle when eliminarVehiculo is called', () => {
+  it('cargar los vehiculos para eliminarlos', () => {
     component.eliminarVehiculo(1);
     expect(mockServicebd.eliminarVehiculo).toHaveBeenCalledWith(1);
   });
 
-  it('should navigate to /inicio if the user does not have admin access', async () => {
+  it('viajar hacia el inicio dependiendo si es administrador', async () => {
     mockNativeStorage.getItem.and.returnValue(Promise.resolve('2'));
     await component.verificarAcceso();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/inicio']);

@@ -50,12 +50,12 @@ describe('AdminPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load vehicles', async () => {
+  it('cargar los vehiculos', async () => {
     await component.cargarVehiculos();
     expect(component.vehiculos.length).toBeGreaterThan(0); 
   });
 
-  it('should add a new vehicle with null price', async () => {
+  it('anadir un nuevo vehiculo con precio nulo', async () => {
     component.nuevoVehiculo = {
       id: 0,
       marca: 'Honda',

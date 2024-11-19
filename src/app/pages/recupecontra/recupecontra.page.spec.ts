@@ -32,17 +32,17 @@ describe('RecupecontraPage', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('se crea', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show toast when email is empty', async () => {
+  it('muesta un msj cuado el email es incorrecto', async () => {
     component.email = ''; 
     await component.recoverPassword();
     
   });
 
-  it('should show toast when email is empty', async () => {
+  it('muesta un mensaje que el email esta vacio', async () => {
     const toastSpy = spyOn(component, 'presentToast');
     component.email = ''; 
     await component.recoverPassword();

@@ -3,7 +3,7 @@ import { SQLiteObject, SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { User } from '../models/user';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Usuario } from '../models/usuario';
 import { Vehiculo } from '../models/vehiculo';
 
@@ -11,6 +11,9 @@ import { Vehiculo } from '../models/vehiculo';
   providedIn: 'root'
 })
 export class ServicebdService {
+  getData(): Observable<any> {
+    return of('real data');  
+  }
   http: any;
   public database!: SQLiteObject;
 
@@ -39,7 +42,13 @@ export class ServicebdService {
     this.crearBD();
   }
 
-  
+  public getDatabase(): Promise<SQLiteObject> {
+    return this.sqlite.create({
+      name: 'data.db',
+      location: 'default'
+    });
+  }
+
   crearBD() {
     this.platform.ready().then(() => {
       console.log('Base de datos lista');

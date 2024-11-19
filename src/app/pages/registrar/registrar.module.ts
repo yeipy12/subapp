@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import { IonicModule } from '@ionic/angular';
 
@@ -11,7 +11,6 @@ import { RegistrarPage } from './registrar.page';
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     IonicModule,
     RegistrarPageRoutingModule,
     MatButtonModule,

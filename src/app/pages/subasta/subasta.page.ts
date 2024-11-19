@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core'; 
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Vehiculo } from 'src/app/models/vehiculo';
 import { ServicebdService } from 'src/app/services/servicebd.service';
-import { Geolocation } from '@capacitor/geolocation';
+
 
 @Component({
   selector: 'app-subasta',

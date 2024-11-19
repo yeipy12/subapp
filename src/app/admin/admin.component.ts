@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { ServicebdService } from 'src/app/services/servicebd.service';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { Vehiculo } from '../models/vehiculo';
 
 @Component({
@@ -13,13 +13,14 @@ import { Vehiculo } from '../models/vehiculo';
 export class AdminComponent implements OnInit {
   vehiculos: Vehiculo[] = [];
   nuevoVehiculo: Vehiculo = {
+    id: 0,
     marca: '',
     modelo: '',
     km: 0,
     combustible: '',
     transmision: '',
     precio: null,
-    foto: '' 
+    foto: ''  
   };
 
   constructor(
@@ -39,11 +40,9 @@ export class AdminComponent implements OnInit {
   }
 
   agregarVehiculo() {
-    
     if (this.nuevoVehiculo.marca && this.nuevoVehiculo.modelo && this.nuevoVehiculo.km && this.nuevoVehiculo.precio && this.nuevoVehiculo.foto) {
       this.servicebd.insertarVehiculo(this.nuevoVehiculo).then(() => {
         alert('Vehículo agregado exitosamente!');
-        
       }).catch((e) => {
         alert('Error al agregar vehículo: ' + JSON.stringify(e));
       });
@@ -52,15 +51,28 @@ export class AdminComponent implements OnInit {
     }
   }
 
-cargarVehiculoss() {
-  this.servicebd.obtenerVehiculos().then((vehiculos) => {
-    console.log(vehiculos); 
-    this.vehiculos = vehiculos;
-    this.vehiculos.forEach(v => console.log(v.foto)); 
-  }).catch(e => {
-    console.error('Error al cargar vehículos', e);
-  });
-}
+  
+  tomarFoto() {
+    this.camera.getPicture({
+      correctOrientation: true,  
+      destinationType: this.camera.DestinationType.DATA_URL, 
+    }).then((imageData) => {
+      this.nuevoVehiculo.foto = 'data:image/jpeg;base64,' + imageData;  
+    }).catch((error) => {
+      console.error('Error al tomar la foto', error);
+      alert('Error al tomar la foto');
+    });
+  }
+
+  cargarVehiculoss() {
+    this.servicebd.obtenerVehiculos().then((vehiculos) => {
+      console.log(vehiculos); 
+      this.vehiculos = vehiculos;
+      this.vehiculos.forEach(v => console.log(v.foto)); 
+    }).catch(e => {
+      console.error('Error al cargar vehículos', e);
+    });
+  }
 
   editarVehiculo(id: number) {
     const actualizado = { 
@@ -89,9 +101,10 @@ cargarVehiculoss() {
   verificarAcceso() {
     const rol = localStorage.getItem('id_rol');
     if (rol !== '1') {
-      
       this.router.navigate(['/inicio']);
     }
   }
 }
+
+
 

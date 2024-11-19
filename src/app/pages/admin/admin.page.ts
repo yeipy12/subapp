@@ -12,6 +12,7 @@ import { Vehiculo } from 'src/app/models/vehiculo';
 export class AdminPage implements OnInit {
   vehiculos: Vehiculo[] = [];
   nuevoVehiculo = {
+    id: 0,  
     marca: '',
     modelo: '',
     km: null,
@@ -20,7 +21,7 @@ export class AdminPage implements OnInit {
     precio: null,
     foto: '',
     estado: '',
-    imagen:''
+    imagen: ''
   };
   
   constructor(private bd: ServicebdService, private navCtrl: NavController) {}
@@ -34,7 +35,7 @@ export class AdminPage implements OnInit {
       this.vehiculos = await this.bd.obtenerVehiculos();
       console.log('Vehículos obtenidos:', this.vehiculos);
     } catch (error) {
-      
+      console.error("Error al cargar vehículos:", error);
     }
   }
 
@@ -42,16 +43,17 @@ export class AdminPage implements OnInit {
     if (this.nuevoVehiculo.marca && 
         this.nuevoVehiculo.modelo && 
         this.nuevoVehiculo.km !== null && 
-        this.nuevoVehiculo.precio !== null) {
-      
-      const vehiculo = {
+        this.nuevoVehiculo.precio !== null) {  
+  
+      const vehiculo: Vehiculo = {
+        id: 0,  
         marca: this.nuevoVehiculo.marca,
         modelo: this.nuevoVehiculo.modelo,
         km: this.nuevoVehiculo.km,
         combustible: this.nuevoVehiculo.combustible,
         transmision: this.nuevoVehiculo.transmision,
-        precio: this.nuevoVehiculo.precio,
-        foto: this.nuevoVehiculo.foto
+        precio: this.nuevoVehiculo.precio,  
+        foto: this.nuevoVehiculo.foto,
       };
   
       this.bd.insertarVehiculo(vehiculo).then(() => {
@@ -65,6 +67,7 @@ export class AdminPage implements OnInit {
       alert('Por favor, completa todos los campos.');
     }
   }
+  
 
   takePicture = async () => {
     const image = await Camera.getPhoto({
@@ -80,5 +83,5 @@ export class AdminPage implements OnInit {
     }
   };
   
-}  
+}
 

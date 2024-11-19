@@ -20,55 +20,84 @@
       <br />
       <br />
       <form [formGroup]="form" (ngSubmit)="crear()">
-
-        <ion-input label="Nombre" label-placement="floating" fill="outline" placeholder="Ingrese su nombre"
-          formControlName="pnombre" (ionBlur)="form.get('pnombre')?.markAsTouched()"></ion-input>
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input
+            formControlName="pnombre"
+            type="text"
+            placeholder="Ingrese su nombre"
+            (ionBlur)="form.get('pnombre')?.markAsTouched()"
+          ></ion-input>
+        </ion-item>
         <p *ngIf="isNombreInvalid()">{{ getNombreError() }}</p>
-        <br />
 
-        <ion-input label="Apellido" label-placement="floating" fill="outline" placeholder="Ingrese su apellido"
-          formControlName="apellido" (ionBlur)="form.get('apellido')?.markAsTouched()"></ion-input>
+        <ion-item>
+          <ion-label position="floating">Apellido</ion-label>
+          <ion-input
+            formControlName="apellido"
+            type="text"
+            placeholder="Ingrese su apellido"
+            (ionBlur)="form.get('apellido')?.markAsTouched()"
+          ></ion-input>
+        </ion-item>
         <p *ngIf="isApellidoInvalid()">{{ getApellidoError() }}</p>
-        <br />
 
-        <ion-input label="Nombre de usuario" label-placement="floating" fill="outline"
-          placeholder="Ingrese su nombre de usuario" formControlName="nom_usuario" (ionBlur)="form.get('nom_usuario')?.markAsTouched()"></ion-input>
+        <ion-item>
+          <ion-label position="floating">Nombre de usuario</ion-label>
+          <ion-input
+            formControlName="nom_usuario"
+            type="text"
+            placeholder="Ingrese su nombre de usuario"
+            (ionBlur)="form.get('nom_usuario')?.markAsTouched()"
+          ></ion-input>
+        </ion-item>
         <p *ngIf="isUsuarioInvalid()">{{ getUsuarioError() }}</p>
-        <br />
 
-        <ion-input label="Correo electrónico" type="email" label-placement="floating" fill="outline"
-          placeholder="Ingrese su correo electrónico" formControlName="correo" (ionBlur)="form.get('correo')?.markAsTouched()"></ion-input>
+        <ion-item>
+          <ion-label position="floating">Correo electrónico</ion-label>
+          <ion-input
+            formControlName="correo"
+            type="email"
+            placeholder="Ingrese su correo electrónico"
+            (ionBlur)="form.get('correo')?.markAsTouched()"
+          ></ion-input>
+        </ion-item>
         <p *ngIf="isCorreoInvalid()">{{ getCorreoError() }}</p>
-        <br />
 
-        <ion-input label="Contraseña" type="password" label-placement="floating" fill="outline"
-          placeholder="Ingrese su contraseña" formControlName="contrasena" (ionBlur)="form.get('contrasena')?.markAsTouched()">
-          <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
-        </ion-input>
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input
+            formControlName="contrasena"
+            type="password"
+            placeholder="Ingrese su contraseña"
+            (ionBlur)="form.get('contrasena')?.markAsTouched()"
+          ></ion-input>
+        </ion-item>
         <p *ngIf="isContrasenaInvalid()">{{ getContrasenaError() }}</p>
-        <br />
 
-        <ion-input label="Confirmar Contraseña" type="password" label-placement="floating" fill="outline"
-          placeholder="Confirme su contraseña" formControlName="confirmar_contrasena" (ionBlur)="form.get('confirmar_contrasena')?.markAsTouched()">
-          <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
-        </ion-input>
+        <ion-item>
+          <ion-label position="floating">Confirmar Contraseña</ion-label>
+          <ion-input
+            formControlName="confirmar_contrasena"
+            type="password"
+            placeholder="Confirme su contraseña"
+            (ionBlur)="form.get('confirmar_contrasena')?.markAsTouched()"
+          ></ion-input>
+        </ion-item>
         <p *ngIf="isConfirmarContrasenaInvalid()">{{ getConfirmarContrasenaError() }}</p>
-        <br />
 
-        <div class="container-check">
+        <ion-item>
           <ion-checkbox formControlName="terminos"></ion-checkbox>
           Acepto los <a>términos y condiciones</a>
-        </div>
-        <br/>
-        <p *ngIf="form.get('terminos')?.touched && form.get('terminos')?.invalid">Debes aceptar los términos y condiciones.</p>
-        
+        </ion-item>
+        <p *ngIf="form.get('terminos')?.touched && form.get('terminos')?.invalid">
+          Debes aceptar los términos y condiciones.
+        </p>
 
         <div class="container-boton">
           <ion-button color="submenu" type="submit" [disabled]="form.invalid">Crear cuenta</ion-button>
         </div>
-
       </form>
-
     </ion-card>
   </div>
 </ion-content>

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { AlertController } from '@ionic/angular';
-
 import { User } from 'src/app/models/user';
 import { ServicebdService } from 'src/app/services/servicebd.service';
 
@@ -12,8 +11,8 @@ import { ServicebdService } from 'src/app/services/servicebd.service';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-
-  usuario!: User | null;
+  private usuario!: User | null;
+   
   nom_usuario: string = "";
   pnombre: string = "";
   apellido: string = "";
@@ -27,7 +26,7 @@ export class PerfilPage implements OnInit {
     public alertcontroller: AlertController, 
     private router: Router, 
     private activedroute: ActivatedRoute, 
-    private bd: ServicebdService
+    private bd: ServicebdService,
   ) { 
     this.activedroute.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
@@ -37,29 +36,20 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit() {
-    
     const iduser2 = Number(this.idUsuario = localStorage.getItem('id_usuario'));
     this.ls1 = localStorage.getItem('nom_usuario');
-
     if (this.ls1) {
-      this.nom_usuario = this.ls1; 
+      this.nom_usuario = this.ls1;
     }
-
-   
     if (iduser2) {
       this.photo = localStorage.getItem(`user_photo_${iduser2}`);
     }
-
     if (iduser2) {
-      
       this.bd.getUserPerfil(iduser2).then(() => {
         this.bd.fetchUsuario().subscribe(usuario => {
           this.usuario = usuario;
-          
-          
           if (this.usuario?.foto_perfil) {
             this.photo = this.usuario.foto_perfil;
-            
             localStorage.setItem(`user_photo_${this.usuario.id_usuario}`, this.photo);
           }
         });
@@ -67,6 +57,15 @@ export class PerfilPage implements OnInit {
     }
   }
 
+  
+  get usuarioData() {
+    return this.usuario;
+  }
+
+  
+  get serviceBd() {
+    return this.bd;
+  }
   
   takePicture = async () => {
     const image = await Camera.getPhoto({
@@ -129,6 +128,7 @@ export class PerfilPage implements OnInit {
     });
     await alert.present();
   }
+  
 }
 
 

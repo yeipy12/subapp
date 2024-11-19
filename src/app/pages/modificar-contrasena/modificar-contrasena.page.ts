@@ -11,6 +11,7 @@ export class ModificarContrasenaPage implements OnInit {
   nuevaContrasena: string = '';
   confirmarContrasena: string = '';
 
+
   constructor(private bd: ServicebdService, private router: Router) {}
 
   ngOnInit() {}

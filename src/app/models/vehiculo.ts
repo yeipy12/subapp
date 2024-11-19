@@ -1,5 +1,5 @@
 export interface Vehiculo {
-  id?: number; 
+  id: number; 
   marca: string;
   modelo: string;
   km: number;
@@ -7,5 +7,4 @@ export interface Vehiculo {
   transmision: string;
   precio: number | null;
   foto: string; 
-  
 }

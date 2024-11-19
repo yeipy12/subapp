@@ -4,7 +4,7 @@ import { AlertController } from '@ionic/angular';
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceAlert {
+export class ServicealertService {
   constructor(private alertController: AlertController) {}
 
   async presentAlert(titulo: string, msj: string) {

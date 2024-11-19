@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ServicebdService } from 'src/app/services/servicebd.service';
-import { ServiceAlert } from 'src/app/services/servicealert.service'; 
+import { ServicealertService } from 'src/app/services/servicealert.service';
 
 @Component({
   selector: 'app-registrar',
@@ -17,7 +17,7 @@ export class RegistrarPage implements OnInit {
     private bd: ServicebdService,
     private router: Router,
     private fb: FormBuilder,
-    private serviceAlert: ServiceAlert 
+    private ServicealertService: ServicealertService 
   ) {}
 
   ngOnInit() {
@@ -57,15 +57,10 @@ export class RegistrarPage implements OnInit {
       const { pnombre, apellido, nom_usuario, correo, contrasena } = this.form.value;
       const usuarioExistente = await this.bd.verificarUsuario(nom_usuario, correo); 
       if (usuarioExistente) {
-        this.serviceAlert.presentAlert('Error', 'El nombre de usuario o correo ya están en uso.'); 
+        this.ServicealertService.presentAlert('Error', 'El nombre de usuario o correo ya están en uso.'); 
       } else {
-        
         await this.bd.insertarUsuario(pnombre, apellido, nom_usuario, correo, contrasena, this.id_rol);
-        
-        
         localStorage.setItem('usuario', JSON.stringify({ pnombre, apellido, nom_usuario, correo }));
-        
-        
         this.router.navigate(['/login']);
       }
     }
